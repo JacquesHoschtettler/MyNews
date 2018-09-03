@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/main_activity_menu_search"
+        app:showAsAction="ifRoom"
+        android:title="Search"
+        android:icon="@mipmap/ic_search_white_36dp"
+        />
+
+    <item
+        android:id="@+id/main_activity_menu_parameters"
+        app:showAsAction="ifRoom"
+        android:title="Parameters"
+        android:icon="@mipmap/ic_more_vert_white_36dp"
+        />
+
+</menu>
