@@ -1,24 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.v4.widget.DrawerLayout android:layout_height="match_parent"
+    android:layout_width="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.hoschtettler.jacques.mynews.Controllers.Activities.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_navigation_drawer_layout"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <include
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-    />
-
-    <android.support.v4.view.ViewPager
-        android:name="com.hoschtettler.jacques.mynews.Controllers.Fragments.TopStoriesFragment"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/main_display_view_pager"
-    />
+        android:orientation="vertical"
+        tools:context="com.hoschtettler.jacques.mynews.Controllers.Activities.MainActivity">
 
-</LinearLayout>
+        <include
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/main_activity_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/purple"
+            app:tabTextColor="@color/green"
+            app:tabSelectedTextColor="@color/white"
+            app:tabIndicatorColor="@color/colorPrimaryDark"
+            >
+        </android.support.design.widget.TabLayout>
+
+        <android.support.v4.view.ViewPager
+            android:name="com.hoschtettler.jacques.mynews.Controllers.Fragments.TopStoriesFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/main_display_view_pager"
+        />
+
+    </LinearLayout>
+    <android.support.design.widget.NavigationView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/navigation_view_layout"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/menu_drawer"
+    />
+</android.support.v4.widget.DrawerLayout>
