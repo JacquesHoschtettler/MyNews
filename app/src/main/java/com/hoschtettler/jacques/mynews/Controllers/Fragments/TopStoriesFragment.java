@@ -4,11 +4,25 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ImageView;
 
+import com.hoschtettler.jacques.mynews.Models.News;
+import com.hoschtettler.jacques.mynews.Models.NewsAdapter;
 import com.hoschtettler.jacques.mynews.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,23 +34,27 @@ import com.hoschtettler.jacques.mynews.R;
  */
 public class TopStoriesFragment extends Fragment {
 
+    private static final String KEY_URL = "Url" ;
+
+    private List<News> mNews ;
+    @BindView(R.id.fragment_top_stories_recycler_view) RecyclerView mRecyclerView ;
+    private NewsAdapter mNewsAdapter ;
+
     public TopStoriesFragment() {
         // Required empty public constructor
     }
 
-
     public static TopStoriesFragment newInstance()
     {
-        TopStoriesFragment fragment = new TopStoriesFragment();
-
-        return fragment;
+        TopStoriesFragment topStoriesFragment = new TopStoriesFragment();
+        return topStoriesFragment ;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -44,10 +62,35 @@ public class TopStoriesFragment extends Fragment {
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_top_stories, container, false);
+        View view = inflater.inflate(R.layout.fragment_top_stories, container, false) ;
+
+        ButterKnife.bind(this,view) ;
+        RecyclerViewConfiguration() ;
+        AdapterConfiguration() ;
+
+        mNewsAdapter.notifyDataSetChanged();
+
+        return view ;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    private void RecyclerViewConfiguration()
+    {
+        mNews = new ArrayList<>();
+        for (int i = 0 ; i< 8 ; i++)
+        {
+            News news = new News(getResources().getDrawable(R.mipmap.ic_launcher_round),
+                    "New "+i, "Tout va bien, Madame la Marquise.", "adresse url", i+"/10/2018") ;
+            mNews.add(news) ;
+        }
+     }
+
+    private void AdapterConfiguration()
+    {
+        mNewsAdapter = new NewsAdapter(mNews) ;
+        this.mRecyclerView.setAdapter(mNewsAdapter);
+        this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
     public void onButtonPressed(Uri uri)
     {
        // if (mListener != null) {

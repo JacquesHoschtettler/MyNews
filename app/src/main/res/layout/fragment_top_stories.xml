@@ -3,17 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Controllers.Fragments.TopStoriesFragment">
+    tools:context=".Controllers.Fragments.TopStoriesFragment"
+    android:id="@+id/fragment_layout_top_stories">
 
-
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_top_stories_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="40dp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textColor="@color/colorAccent"
-        android:background="@color/colorPrimary"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 
 </FrameLayout>

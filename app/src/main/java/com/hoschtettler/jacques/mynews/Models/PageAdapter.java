@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.hoschtettler.jacques.mynews.Controllers.Fragments.NewsPage;
+import com.hoschtettler.jacques.mynews.Controllers.Fragments.TopStoriesFragment;
 
 public class PageAdapter extends FragmentPagerAdapter
 {
@@ -18,7 +19,7 @@ public class PageAdapter extends FragmentPagerAdapter
 
     @Override
     public Fragment getItem(int position) {
-        return NewsPage.newInstance(mPagesUrl.getPageUrl(position)) ;
+        return TopStoriesFragment.newInstance() ;
     }
 
     @Override
