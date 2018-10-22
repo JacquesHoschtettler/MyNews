@@ -6,7 +6,29 @@
     tools:context=".Controllers.Fragments.TopStoriesFragment"
     android:id="@+id/fragment_layout_top_stories">
 
-    <android.support.v7.widget.RecyclerView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/top_stories_progress_bar"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/text_in_top_stories_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:text="@string/dowloading"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_title"
+            />
+
+    </LinearLayout>
+        <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_top_stories_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

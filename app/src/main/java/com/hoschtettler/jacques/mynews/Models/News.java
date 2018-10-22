@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 public class News {
-    private Drawable mDrawable ;
+    private String mMediaUrl ;
     private String mTitle ;
     private String mText ;
     private String mUrl ;
@@ -14,20 +14,20 @@ public class News {
     {
     }
 
-    public News(Drawable imageView, String title, String text, String url, String date) {
-        mDrawable = imageView;
+    public News(String mediaUrl, String title, String text, String url, String date) {
+        mMediaUrl = mediaUrl;
         mTitle = title;
         mText = text;
         mUrl = url;
         mDate = date;
     }
 
-    public Drawable getImageView() {
-        return mDrawable;
+    public String getMediaUrl() {
+        return mMediaUrl;
     }
 
-    public void setImageView(Drawable imageView) {
-        mDrawable = imageView;
+    public void setImageView(String mediaUrl) {
+        mMediaUrl = mediaUrl;
     }
 
     public String getTitle() {

@@ -13,12 +13,12 @@ import com.hoschtettler.jacques.mynews.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link BooksFragment.OnFragmentInteractionListener} interface
+ * {@link ScienceFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link BooksFragment#newInstance} factory method to
+ * Use the {@link ScienceFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BooksFragment extends Fragment {
+public class ScienceFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,18 +30,18 @@ public class BooksFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public BooksFragment() {
+    public ScienceFragment() {
         // Required empty public constructor
     }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-    * @return A new instance of fragment BooksFragment.
+    * @return A new instance of fragment ScienceFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BooksFragment newInstance(int position) {
-        BooksFragment fragment = new BooksFragment();
+    public static ScienceFragment newInstance(int position) {
+        ScienceFragment fragment = new ScienceFragment();
         return fragment;
     }
 

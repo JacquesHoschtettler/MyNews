@@ -7,10 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.hoschtettler.jacques.mynews.Models.News;
-import com.hoschtettler.jacques.mynews.Models.NewsAdapter;
+import com.hoschtettler.jacques.mynews.Utils.NewsAdapter;
 import com.hoschtettler.jacques.mynews.R;
 
 import java.util.ArrayList;

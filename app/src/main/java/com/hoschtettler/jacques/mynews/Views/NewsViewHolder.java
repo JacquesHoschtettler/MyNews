@@ -1,11 +1,11 @@
 package com.hoschtettler.jacques.mynews.Views;
 
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.RequestManager;
 import com.hoschtettler.jacques.mynews.Models.News;
 import com.hoschtettler.jacques.mynews.R;
 
@@ -25,9 +25,9 @@ public class NewsViewHolder extends RecyclerView.ViewHolder
         ButterKnife.bind(this,itemView) ;
     }
 
-    public void upDateNews(News newsItem)
+    public void upDateNews(News newsItem, RequestManager glide)
     {
-        mNewsImage.setImageDrawable(newsItem.getImageView()) ;
+        glide.load(newsItem.getMediaUrl()).into(mNewsImage);
         mNewsTitle.setText(newsItem.getTitle()) ;
         mNewsDate.setText(newsItem.getDate()) ;
         mNewsArticle.setText(newsItem.getText()) ;
