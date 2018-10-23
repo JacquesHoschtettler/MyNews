@@ -27,7 +27,12 @@ public class NewsViewHolder extends RecyclerView.ViewHolder
 
     public void upDateNews(News newsItem, RequestManager glide)
     {
-        glide.load(newsItem.getMediaUrl()).into(mNewsImage);
+        if (newsItem.getMediaUrl() != "") {
+            glide.load(newsItem.getMediaUrl()).into(mNewsImage);
+        } else
+        {
+            mNewsImage.setImageResource(R.mipmap.poweredby_nytimes_30a);
+        }
         mNewsTitle.setText(newsItem.getTitle()) ;
         mNewsDate.setText(newsItem.getDate()) ;
         mNewsArticle.setText(newsItem.getText()) ;

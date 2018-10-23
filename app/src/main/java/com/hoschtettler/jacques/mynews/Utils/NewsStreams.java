@@ -1,4 +1,4 @@
-package com.hoschtettler.jacques.mynews.Controllers.Activities;
+package com.hoschtettler.jacques.mynews.Utils;
 
 import com.hoschtettler.jacques.mynews.Models.MostPopular.MostPopularStructure;
 import com.hoschtettler.jacques.mynews.Models.PagesUrl;
@@ -27,7 +27,7 @@ public class NewsStreams
     public static Observable<MostPopularStructure> MostPopularStream(int index)
     {
         NewsInterface newsInterface = NewsInterface.retrofit.create(NewsInterface.class) ;
-        return newsInterface.getMostPopular(mPagesUrl.getPageUrl(index))
+        return newsInterface.getMostPopular()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS) ;

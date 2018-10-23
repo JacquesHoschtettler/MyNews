@@ -4,106 +4,115 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+import com.hoschtettler.jacques.mynews.Models.MostPopular.MostPopularResult;
+import com.hoschtettler.jacques.mynews.Models.MostPopular.MostPopularStructure;
+import com.hoschtettler.jacques.mynews.Models.News;
 import com.hoschtettler.jacques.mynews.R;
+import com.hoschtettler.jacques.mynews.Utils.NewsAdapter;
+import com.hoschtettler.jacques.mynews.Utils.NewsStreams;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MostPopularFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MostPopularFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class MostPopularFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import java.util.ArrayList;
+import java.util.List;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+import butterknife.BindView;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
-    private OnFragmentInteractionListener mListener;
 
-    public MostPopularFragment() {
-        // Required empty public constructor
-    }
+public class MostPopularFragment extends NewsPage {
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MostPopularFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MostPopularFragment newInstance(String param1, String param2) {
-        MostPopularFragment fragment = new MostPopularFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    private Disposable mDisposable ;
+    private MostPopularStructure mMostPopularStructure ;
+    private List<MostPopularResult> mMostPopularResults ;
+    private ArrayList<News> mNews ;
+
+    private NewsAdapter mNewsAdapter ;
+
+    @BindView(R.id.fragment_most_popular_recycler_view) RecyclerView mRecyclerView ;
+
+    // Required empty constructor
+    public MostPopularFragment() {}
+
+
+    @Override
+    public NewsPage newsInstance() {
+        return new MostPopularFragment();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    protected int getLayoutId() {
+        return R.layout.fragment_most_popular;
+    }
+
+    @Override
+    protected void LoadingNews() {
+            this.mDisposable = NewsStreams.MostPopularStream(0)
+                    .subscribeWith(new DisposableObserver<MostPopularStructure>() {
+                        @Override
+                        public void onNext(MostPopularStructure mostPopularStructure) {
+                            mMostPopularResults = mostPopularStructure.getResults() ;
+                            UpdateRecyclerView();
+                            mNewsAdapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.e("News","MostPopular.LoadingNews : Error : " + e.getMessage()) ;
+                        }
+
+                        @Override
+                        public void onComplete() {
+                        }
+                    });
+
+    }
+
+
+    private void UpdateRecyclerView ()
+    {
+        for (MostPopularResult result : mMostPopularResults) {
+            News news = new News();
+            if (result.getMedia().size() != 0) {
+                news.setImageView(result.getMedia().get(0).getMediaMetadata().get(0).getUrl());
+            } else {
+                news.setImageView("");
+            }
+
+            news.setTitle(result.getSection() + "/");
+            news.setText(result.getTitle());
+            news.setUrl(result.getUrl());
+            news.setDate(super.FrenchDate(result.getPublishedDate()));
+            mNews.add(news);
         }
+
+    }
+
+
+    public void onDestroy()
+    {
+        super.onDestroy();
+        disposeWhenDestroy(mDisposable) ;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_most_popular, container, false);
+    protected void AdapterConfiguration()
+    {
+        mNews = new ArrayList<>();
+        mMostPopularResults = new ArrayList<>() ;
+
+        mNewsAdapter = new NewsAdapter(mNews, Glide.with(this)) ;
+        this.mRecyclerView.setAdapter(mNewsAdapter);
+        this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

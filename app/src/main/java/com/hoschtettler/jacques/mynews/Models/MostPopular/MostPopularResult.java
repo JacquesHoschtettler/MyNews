@@ -39,10 +39,10 @@ public class MostPopularResult {
         private String source;
         @SerializedName("id")
         @Expose
-        private Integer id;
+        private long id;
         @SerializedName("asset_id")
         @Expose
-        private Integer assetId;
+        private long assetId;
         @SerializedName("views")
         @Expose
         private Integer views;
@@ -142,19 +142,19 @@ public class MostPopularResult {
             this.source = source;
         }
 
-        public Integer getId() {
+        public long getId() {
             return id;
         }
 
-        public void setId(Integer id) {
+        public void setId(long id) {
             this.id = id;
         }
 
-        public Integer getAssetId() {
+        public long getAssetId() {
             return assetId;
         }
 
-        public void setAssetId(Integer assetId) {
+        public void setAssetId(long assetId) {
             this.assetId = assetId;
         }
 
