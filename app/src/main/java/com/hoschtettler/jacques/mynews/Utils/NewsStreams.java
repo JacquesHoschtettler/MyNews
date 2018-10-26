@@ -1,5 +1,6 @@
 package com.hoschtettler.jacques.mynews.Utils;
 
+import com.hoschtettler.jacques.mynews.Models.FreeSubject.FreeSubjectStructure;
 import com.hoschtettler.jacques.mynews.Models.MostPopular.MostPopularStructure;
 import com.hoschtettler.jacques.mynews.Models.PagesUrl;
 import com.hoschtettler.jacques.mynews.Models.TopStories.TopsStoriesStructure;
@@ -32,5 +33,15 @@ public class NewsStreams
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS) ;
     }
+
+    public static Observable<FreeSubjectStructure> FreeSubjectStream(int index)
+    {
+        NewsInterface newsInterface = NewsInterface.retrofit.create(NewsInterface.class) ;
+        return newsInterface.getFreeSubject()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS) ;
+    }
+
 
 }

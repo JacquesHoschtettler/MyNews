@@ -70,8 +70,6 @@ public abstract class NewsPage extends Fragment {
     }
 
 
-
-
     protected String FrenchDate(String englishDate)
     {
         return englishDate.substring(8,10) + "/" +

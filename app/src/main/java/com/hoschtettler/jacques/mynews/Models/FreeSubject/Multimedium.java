@@ -1,9 +1,7 @@
-package com.hoschtettler.jacques.mynews.Models.TopStories;
+package com.hoschtettler.jacques.mynews.Models.FreeSubject;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
 
 public class Multimedium {
 

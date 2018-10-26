@@ -14,7 +14,7 @@ public class PagesUrl
 
         mPageName[0]="Top Stories" ;
         mPageName[1]="Most Popular" ;
-        mPageName[2]="Science" ;
+        mPageName[2]="Free Subject" ;
     }
 
     public void setPageName(String names, int position)
