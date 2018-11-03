@@ -1,5 +1,7 @@
 package com.hoschtettler.jacques.mynews.Controllers.Fragments;
 
+
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,48 +11,45 @@ import com.hoschtettler.jacques.mynews.Models.FreeSubject.Doc;
 import com.hoschtettler.jacques.mynews.Models.FreeSubject.FreeSubjectStructure;
 import com.hoschtettler.jacques.mynews.Models.FreeSubject.Response;
 import com.hoschtettler.jacques.mynews.Models.News;
-import com.hoschtettler.jacques.mynews.Models.TopStories.TopStoriesResult;
-import com.hoschtettler.jacques.mynews.Models.TopStories.TopsStoriesStructure;
 import com.hoschtettler.jacques.mynews.R;
 import com.hoschtettler.jacques.mynews.Utils.NewsAdapter;
 import com.hoschtettler.jacques.mynews.Utils.NewsStreams;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
-public class FreeSubjectFragment extends NewsPage {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class ArtFragment extends NewsPage {
     private Disposable mDisposable;
-    private TopsStoriesStructure mTopStoriesStructure;
     private Response mFreeSubjectResults;
     private ArrayList<News> mNews;
 
-    private NewsAdapter mNewsAdapter;
 
-    @BindView(R.id.fragment_free_subject_recycler_view)
+    @BindView(R.id.fragment_science_recycler_view)
     RecyclerView mRecyclerView;
 
     // Required empty constructor
-    public FreeSubjectFragment() {
+    public ArtFragment() {
     }
 
 
     @Override
     public NewsPage newsInstance() {
-        return new TopStoriesFragment();
+        return new ArtFragment();
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_free_subject;
+    protected int getLayoutId() { return R.layout.fragment_science;
     }
 
     @Override
     protected void LoadingNews() {
-        this.mDisposable = NewsStreams.FreeSubjectStream(0)
+        this.mDisposable = NewsStreams.ArtsStream(0)
                 .subscribeWith(new DisposableObserver<FreeSubjectStructure>() {
                     @Override
                     public void onNext(FreeSubjectStructure freeSubjectStructure) {
@@ -79,6 +78,11 @@ public class FreeSubjectFragment extends NewsPage {
         mNewsAdapter = new NewsAdapter(mNews, Glide.with(this)) ;
         this.mRecyclerView.setAdapter(mNewsAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    @Override
+    protected RecyclerView getRecyclerView() {
+        return mRecyclerView;
     }
 
 

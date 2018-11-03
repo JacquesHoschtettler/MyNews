@@ -1,34 +1,24 @@
 package com.hoschtettler.jacques.mynews.Controllers.Fragments;
 
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-import com.hoschtettler.jacques.mynews.Models.MostPopular.MostPopularResult;
-import com.hoschtettler.jacques.mynews.Models.MostPopular.MostPopularStructure;
-import com.hoschtettler.jacques.mynews.Models.News;
-import com.hoschtettler.jacques.mynews.Models.TopStories.TopStoriesResult;
-import com.hoschtettler.jacques.mynews.Models.TopStories.TopsStoriesStructure;
-import com.hoschtettler.jacques.mynews.Utils.NewsAdapter;
+import com.hoschtettler.jacques.mynews.Models.NewsViewModel;
 import com.hoschtettler.jacques.mynews.R;
-import com.hoschtettler.jacques.mynews.Utils.NewsStreams;
+import com.hoschtettler.jacques.mynews.Utils.ItemClickSupport;
+import com.hoschtettler.jacques.mynews.Utils.NewsAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableObserver;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,7 +29,10 @@ public abstract class NewsPage extends Fragment {
     protected abstract int getLayoutId() ;
     protected abstract void LoadingNews() ;
     protected abstract void AdapterConfiguration() ;
+    protected abstract RecyclerView getRecyclerView() ;
 
+    protected NewsViewModel mNewsUrl ;
+    protected NewsAdapter mNewsAdapter ;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -60,6 +53,8 @@ public abstract class NewsPage extends Fragment {
 
         this.LoadingNews() ;
 
+        configureOnClickRecyclerView();
+
         return view ;
     }
 
@@ -77,7 +72,17 @@ public abstract class NewsPage extends Fragment {
                 +englishDate.substring(0,4) ;
     }
 
-
+    private void configureOnClickRecyclerView() {
+        ItemClickSupport.addTo(getRecyclerView(), R.layout.news_item)
+                .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        Log.e("News", "Position : " + position);
+                        Log.e("News","Url :" + mNewsAdapter.getUrl(position)) ;
+                        mNewsUrl.setChoisedUrl(mNewsAdapter.getUrl(position));
+                    }
+                });
+    }
 
     public void onButtonPressed(Uri uri)
     {
@@ -95,6 +100,8 @@ public abstract class NewsPage extends Fragment {
     public void onAttach(Context context)
     {
         super.onAttach(context);
+
+        mNewsUrl = ViewModelProviders.of(getActivity()).get(NewsViewModel.class);
         /*
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -104,6 +111,8 @@ public abstract class NewsPage extends Fragment {
         }
         */
     }
+
+
 
     @Override
     public void onDetach()

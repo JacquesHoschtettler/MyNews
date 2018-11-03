@@ -1,15 +1,8 @@
 package com.hoschtettler.jacques.mynews.Controllers.Fragments;
 
-import android.content.Context;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.hoschtettler.jacques.mynews.Models.MostPopular.MostPopularResult;
@@ -34,7 +27,6 @@ public class MostPopularFragment extends NewsPage {
     private List<MostPopularResult> mMostPopularResults ;
     private ArrayList<News> mNews ;
 
-    private NewsAdapter mNewsAdapter ;
 
     @BindView(R.id.fragment_most_popular_recycler_view) RecyclerView mRecyclerView ;
 
@@ -102,6 +94,8 @@ public class MostPopularFragment extends NewsPage {
         disposeWhenDestroy(mDisposable) ;
     }
 
+
+
     @Override
     protected void AdapterConfiguration()
     {
@@ -113,6 +107,10 @@ public class MostPopularFragment extends NewsPage {
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
+    @Override
+    protected RecyclerView getRecyclerView() {
+        return mRecyclerView;
+    }
 
 
 }

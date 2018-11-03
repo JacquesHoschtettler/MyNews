@@ -4,7 +4,6 @@ import com.hoschtettler.jacques.mynews.Models.FreeSubject.FreeSubjectStructure;
 import com.hoschtettler.jacques.mynews.Models.MostPopular.MostPopularStructure;
 import com.hoschtettler.jacques.mynews.Models.PagesUrl;
 import com.hoschtettler.jacques.mynews.Models.TopStories.TopsStoriesStructure;
-import com.hoschtettler.jacques.mynews.Utils.NewsInterface;
 
 import java.util.concurrent.TimeUnit;
 
@@ -34,10 +33,19 @@ public class NewsStreams
                 .timeout(10, TimeUnit.SECONDS) ;
     }
 
-    public static Observable<FreeSubjectStructure> FreeSubjectStream(int index)
+    public static Observable<FreeSubjectStructure> ScienceStream(int index)
     {
         NewsInterface newsInterface = NewsInterface.retrofit.create(NewsInterface.class) ;
-        return newsInterface.getFreeSubject()
+        return newsInterface.getScience()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS) ;
+    }
+
+    public static Observable<FreeSubjectStructure> ArtsStream(int index)
+    {
+        NewsInterface newsInterface = NewsInterface.retrofit.create(NewsInterface.class) ;
+        return newsInterface.getArt()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS) ;

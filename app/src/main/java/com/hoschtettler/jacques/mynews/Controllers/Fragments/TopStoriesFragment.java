@@ -21,11 +21,10 @@ import io.reactivex.observers.DisposableObserver;
 
 public class TopStoriesFragment extends NewsPage {
     private Disposable mDisposable ;
-    private TopsStoriesStructure mTopStoriesStructure ;
     private List<TopStoriesResult> mTopStoriesResults ;
     private ArrayList<News> mNews ;
 
-    private NewsAdapter mNewsAdapter ;
+    public
 
     @BindView(R.id.fragment_top_stories_recycler_view)
     RecyclerView mRecyclerView ;
@@ -104,5 +103,11 @@ public class TopStoriesFragment extends NewsPage {
         this.mRecyclerView.setAdapter(mNewsAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
+
+    @Override
+    protected RecyclerView getRecyclerView() {
+        return mRecyclerView;
+    }
+
 
 }
