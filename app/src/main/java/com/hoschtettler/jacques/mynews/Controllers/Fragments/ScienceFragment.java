@@ -9,13 +9,11 @@ import com.hoschtettler.jacques.mynews.Models.FreeSubject.Doc;
 import com.hoschtettler.jacques.mynews.Models.FreeSubject.FreeSubjectStructure;
 import com.hoschtettler.jacques.mynews.Models.FreeSubject.Response;
 import com.hoschtettler.jacques.mynews.Models.News;
-import com.hoschtettler.jacques.mynews.R;
 import com.hoschtettler.jacques.mynews.Utils.NewsAdapter;
 import com.hoschtettler.jacques.mynews.Utils.NewsStreams;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
@@ -24,23 +22,8 @@ public class ScienceFragment extends NewsPage {
     private Response mSciencetResults;
     private ArrayList<News> mNews;
 
-
-    @BindView(R.id.fragment_science_recycler_view)
-    RecyclerView mRecyclerView;
-
     // Required empty constructor
     public ScienceFragment() {
-    }
-
-
-    @Override
-    public NewsPage newsInstance() {
-        return new ScienceFragment();
-    }
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_science;
     }
 
     @Override
@@ -98,4 +81,11 @@ public class ScienceFragment extends NewsPage {
             mNews.add(news);
         }
     }
+
+    public void onDestroy()
+    {
+        super.onDestroy();
+        disposeWhenDestroy(mDisposable) ;
+    }
+
 }

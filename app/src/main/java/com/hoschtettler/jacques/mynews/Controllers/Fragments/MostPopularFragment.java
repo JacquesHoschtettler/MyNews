@@ -1,52 +1,34 @@
 package com.hoschtettler.jacques.mynews.Controllers.Fragments;
 
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.hoschtettler.jacques.mynews.Models.MostPopular.MostPopularResult;
 import com.hoschtettler.jacques.mynews.Models.MostPopular.MostPopularStructure;
 import com.hoschtettler.jacques.mynews.Models.News;
-import com.hoschtettler.jacques.mynews.R;
 import com.hoschtettler.jacques.mynews.Utils.NewsAdapter;
 import com.hoschtettler.jacques.mynews.Utils.NewsStreams;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
 
-public class MostPopularFragment extends NewsPage {
-
+public class MostPopularFragment extends NewsPage
+{
     private Disposable mDisposable ;
-    private MostPopularStructure mMostPopularStructure ;
     private List<MostPopularResult> mMostPopularResults ;
     private ArrayList<News> mNews ;
 
-
-    @BindView(R.id.fragment_most_popular_recycler_view) RecyclerView mRecyclerView ;
-
-    // Required empty constructor
+ // Required empty constructor
     public MostPopularFragment() {}
-
-
-    @Override
-    public NewsPage newsInstance() {
-        return new MostPopularFragment();
-    }
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_most_popular;
-    }
 
     @Override
     protected void LoadingNews() {
-            this.mDisposable = NewsStreams.MostPopularStream(0)
+            mDisposable = NewsStreams.MostPopularStream(0)
                     .subscribeWith(new DisposableObserver<MostPopularStructure>() {
                         @Override
                         public void onNext(MostPopularStructure mostPopularStructure) {
@@ -64,7 +46,6 @@ public class MostPopularFragment extends NewsPage {
                         public void onComplete() {
                         }
                     });
-
     }
 
 
@@ -84,16 +65,7 @@ public class MostPopularFragment extends NewsPage {
             news.setDate(super.FrenchDate(result.getPublishedDate()));
             mNews.add(news);
         }
-
     }
-
-
-    public void onDestroy()
-    {
-        super.onDestroy();
-        disposeWhenDestroy(mDisposable) ;
-    }
-
 
 
     @Override
@@ -107,10 +79,10 @@ public class MostPopularFragment extends NewsPage {
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-    @Override
-    protected RecyclerView getRecyclerView() {
-        return mRecyclerView;
+    public void onDestroy()
+    {
+        super.onDestroy();
+        disposeWhenDestroy(mDisposable) ;
     }
-
 
 }

@@ -17,6 +17,7 @@ import com.hoschtettler.jacques.mynews.R;
 import com.hoschtettler.jacques.mynews.Utils.ItemClickSupport;
 import com.hoschtettler.jacques.mynews.Utils.NewsAdapter;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 
@@ -25,14 +26,12 @@ import io.reactivex.disposables.Disposable;
  */
 public abstract class NewsPage extends Fragment {
 
-    protected abstract NewsPage newsInstance() ;
-    protected abstract int getLayoutId() ;
     protected abstract void LoadingNews() ;
     protected abstract void AdapterConfiguration() ;
-    protected abstract RecyclerView getRecyclerView() ;
 
     protected NewsViewModel mNewsUrl ;
     protected NewsAdapter mNewsAdapter ;
+    @BindView(R.id.fragment_news_page_recycler_view) RecyclerView mRecyclerView ;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -45,7 +44,8 @@ public abstract class NewsPage extends Fragment {
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(getLayoutId(), container, false) ;
+       // View view = inflater.inflate(getLayoutId(), container, false) ;
+        View view = inflater.inflate(R.layout.fragment_news_page, container, false) ;
 
         ButterKnife.bind(this,view) ;
 
@@ -82,6 +82,11 @@ public abstract class NewsPage extends Fragment {
                         mNewsUrl.setChoisedUrl(mNewsAdapter.getUrl(position));
                     }
                 });
+    }
+
+
+    protected RecyclerView getRecyclerView() {
+        return mRecyclerView;
     }
 
     public void onButtonPressed(Uri uri)
