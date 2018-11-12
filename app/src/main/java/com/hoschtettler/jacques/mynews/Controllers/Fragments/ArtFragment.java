@@ -1,8 +1,8 @@
 package com.hoschtettler.jacques.mynews.Controllers.Fragments;
 
 
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
