@@ -1,20 +1,20 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorSecondary</item>
     </style>
 
-    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:background">@color/yellow</item>
+    <style name="ToolbarTheme" parent="@style/Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 
     <style name="Toolbar.TitleText" parent="Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textStyle">italic</item>
-        <item name="android:textColor">@color/purple</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="textBigAndReadable">
@@ -25,12 +25,12 @@
 
     <style name="normalTitle">
         <item name="android:textSize">@dimen/text_normal</item>
-        <item name="android:textColor">@color/blue</item>
+        <item name="android:textColor">@color/colorSecondary</item>
     </style>
 
     <style name="textArticle">
         <item name="android:textSize">@dimen/text_normal</item>
-        <item name="android:textColor">@color/blue</item>
+        <item name="android:textColor">@color/colorSecondaryDark</item>
     </style>
 
     <style name="littleText">

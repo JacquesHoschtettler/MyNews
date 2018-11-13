@@ -18,4 +18,8 @@
     <string name="title">Title</string>
     <string name="date">01/01/2001</string>
 
+    <string name="query_hint">Search query term</string>
+    <string name="begin_date">Begin date</string>
+    <string name="end_date">End date</string>
+
 </resources>
