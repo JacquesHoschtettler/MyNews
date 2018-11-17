@@ -2,7 +2,6 @@ package com.hoschtettler.jacques.mynews.Utils;
 
 import com.hoschtettler.jacques.mynews.Models.FreeSubject.FreeSubjectStructure;
 import com.hoschtettler.jacques.mynews.Models.MostPopular.MostPopularStructure;
-import com.hoschtettler.jacques.mynews.Models.PagesUrl;
 import com.hoschtettler.jacques.mynews.Models.TopStories.TopsStoriesStructure;
 
 import java.util.concurrent.TimeUnit;
@@ -13,8 +12,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class NewsStreams
 {
-    private static PagesUrl mPagesUrl = new PagesUrl() ;
-
     public static Observable<TopsStoriesStructure> TopStoriesStream(int index)
     {
         NewsInterface newsInterface = NewsInterface.retrofit.create(NewsInterface.class) ;
