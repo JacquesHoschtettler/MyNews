@@ -1,8 +1,6 @@
 package com.hoschtettler.jacques.mynews.Controllers.Fragments;
 
 
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
@@ -15,6 +13,8 @@ import com.hoschtettler.jacques.mynews.Utils.NewsStreams;
 
 import java.util.ArrayList;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
@@ -59,7 +59,7 @@ public class ArtFragment extends NewsPage {
         mNews = new ArrayList<>();
         mFreeSubjectResults = new Response() ;
 
-        mNewsAdapter = new NewsAdapter(mNews, Glide.with(this)) ;
+        mNewsAdapter = new NewsAdapter(mNews, Glide.with(getActivity())) ;
         this.mRecyclerView.setAdapter(mNewsAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }

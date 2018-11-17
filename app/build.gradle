@@ -9,6 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -24,33 +25,38 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
+    // UI design : material design
     implementation 'com.google.android.material:material:1.1.0-alpha01'
 
+    // Refreshing lists : Recyclerview
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
-
+    // Unitary tests
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    // Binding the UI elements : ButterKnife
+    implementation 'com.jakewharton:butterknife:9.0.0-rc1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
 
+    // Managing the calls : Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 
+    // Serialization of the json files : Gson
     implementation 'com.google.code.gson:gson:2.8.2'
 
+    // Data streams : Reactivex
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.7'
 
-    implementation 'com.github.bumptech.glide:glide:4.2.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
+    // Displaying url ressources in a WebView : Glide
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
+    // Transmission of data between fragments and activities : ViewModel
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.0.0"
-
-    implementation 'com.google.android.material:material:1.0.0'
-
 }

@@ -1,7 +1,5 @@
 package com.hoschtettler.jacques.mynews.Controllers.Fragments;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
@@ -14,6 +12,8 @@ import com.hoschtettler.jacques.mynews.Utils.NewsStreams;
 
 import java.util.ArrayList;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
@@ -54,7 +54,7 @@ public class ScienceFragment extends NewsPage {
         mNews = new ArrayList<>();
         mSciencetResults = new Response() ;
 
-        mNewsAdapter = new NewsAdapter(mNews, Glide.with(this)) ;
+        mNewsAdapter = new NewsAdapter(mNews, Glide.with(getActivity())) ;
         this.mRecyclerView.setAdapter(mNewsAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
