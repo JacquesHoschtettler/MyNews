@@ -1,29 +1,29 @@
 package com.hoschtettler.jacques.mynews.Controllers.Activities;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.hoschtettler.jacques.mynews.Controllers.Fragments.ArticleFragment;
 import com.hoschtettler.jacques.mynews.Controllers.Fragments.TopStoriesFragment;
 import com.hoschtettler.jacques.mynews.Models.NewsViewModel;
 import com.hoschtettler.jacques.mynews.Models.PagesUrl;
 import com.hoschtettler.jacques.mynews.R;
 import com.hoschtettler.jacques.mynews.Utils.PageAdapter;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
 
 public class MainActivity extends AppCompatActivity
                     implements NavigationView.OnNavigationItemSelectedListener {
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onChanged(@Nullable String newsUrl)
             {
-                if(mNewsViewModel.getChoisedUrl()!= "") {
+                if(!mNewsViewModel.getChoisedUrl().equals("")) {
                     ArticleFragment newSiteView = new ArticleFragment();
                     newSiteView.setArticleUrl(newsUrl);
 
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity
 
     private void configureToolbar()
     {
-        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar) ;
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar) ;
         setSupportActionBar(toolbar);
     }
 
@@ -114,11 +114,12 @@ public class MainActivity extends AppCompatActivity
         ViewPager pager = findViewById(R.id.main_display_view_pager) ;
         pager.setAdapter(new PageAdapter(getSupportFragmentManager(), mPagesUrl)
         { });
-        TabLayout tabs = (TabLayout)findViewById(R.id.main_activity_tabs) ;
+        TabLayout tabs = findViewById(R.id.main_activity_tabs) ;
         tabs.setupWithViewPager(pager);
         tabs.setTabMode(TabLayout.MODE_FIXED);
     }
 
+  /*
     private void configureDrawerLayout()
     {
         this.mToolbar = (Toolbar)findViewById(R.id.toolbar) ;
@@ -133,6 +134,8 @@ public class MainActivity extends AppCompatActivity
         this.mNavigationView = (NavigationView)findViewById(R.id.navigation_view_layout) ;
         mNavigationView.setNavigationItemSelectedListener(this);
     }
+    */
+
 /*
     private void configureOnClickRecyclerView(){
 
@@ -155,12 +158,15 @@ public class MainActivity extends AppCompatActivity
 
     }
     */
+
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item)
     {
         //this.mNavigationView.getMenu().getItem(item).setChecked(true) ;
         return true;
     }
+
 /*
     @Override
     public void onBackPressed()
