@@ -24,6 +24,39 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/search_detes"
+        >
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="40"
+            android:layout_height="wrap_content"
+            android:text="@string/begin_date"
+            android:padding="@dimen/simple_padding"
+            android:onClick="showDatePickerDialog" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="40"
+            android:layout_height="wrap_content"
+            android:text="@string/end_date"
+            android:padding="@dimen/simple_padding"
+            android:onClick="showDatePickerDialog" />
+
+    </LinearLayout>
+
+
+
+   <!--
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +75,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/end_date"/>
     </com.google.android.material.textfield.TextInputLayout>
-
+-->
 
 
 </LinearLayout>
