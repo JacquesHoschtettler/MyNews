@@ -22,4 +22,10 @@
     <string name="begin_date">Begin date</string>
     <string name="end_date">End date</string>
 
+    <string name="search_articles">Search articles</string>
+    <string name="notifications">Notifications</string>
+    <string name="an_error_has_occured">An error has occured</string>
+
+    <string name="Enable_notification">Enable notifications (once per day)</string>
+
 </resources>

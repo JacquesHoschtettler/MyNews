@@ -7,7 +7,11 @@ public class NewsViewModel extends ViewModel
 {
     public final MutableLiveData<String> mNewsUrl = new MutableLiveData<>() ;
 
-    public int searchDisplayIndex = 0 ;
+    private int searchDisplayIndex = -1 ;
+
+    public final MutableLiveData<String> beginDate = new MutableLiveData<>();
+
+    public final MutableLiveData<String> endDate  = new MutableLiveData<>();
 
     public void setChoisedUrl(String newsArticle)
     {
@@ -22,4 +26,26 @@ public class NewsViewModel extends ViewModel
     public void setSearchDisplayIndex(int index) {this.searchDisplayIndex = index ;}
 
     public int getSearchDisplayIndex() {return  this.searchDisplayIndex ;}
+
+    public void setBeginDate(String date)
+    {
+        this.beginDate.setValue(date) ;
+    }
+
+    public String getBeginDate()
+    {
+        return this.beginDate.getValue() ;
+    }
+
+    public void setEndDate(String date)
+    {
+        this.endDate.setValue(date) ;
+    }
+
+    public String getEndDate()
+    {
+        return this.endDate.getValue() ;
+    }
+
+
 }

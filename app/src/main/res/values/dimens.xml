@@ -10,4 +10,7 @@
 
     <dimen name="simple_padding">10dp</dimen>
     <dimen name="double_padding">20dp</dimen>
+
+    <dimen name="simple_elevation">20dp</dimen>
+    <dimen name="double_elevation">40dp</dimen>
 </resources>

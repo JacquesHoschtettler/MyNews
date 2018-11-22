@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-      <!--  <activity android:name=".Controllers.Activities.SearchAndNotificationAci"></activity> -->
+      <activity android:name=".Controllers.Activities.SearchAndNotificationActivity"></activity>
     </application>
 
 </manifest>

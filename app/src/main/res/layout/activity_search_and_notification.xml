@@ -1,81 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".Controllers.Activities.SearchAndNotificationActivity"
-    android:theme="@style/AppTheme"
-    android:padding="@dimen/double_padding">
-
-
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:label="@string/query_hint"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.hoschtettler.jacques.mynews.Controllers.Activities.SearchAndNotificationActivity">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <include
+            layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/query_hint"
             />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/frame_layout_search_and_notification"
+            >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/search_detes"
-        >
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="40"
-            android:layout_height="wrap_content"
-            android:text="@string/begin_date"
-            android:padding="@dimen/simple_padding"
-            android:onClick="showDatePickerDialog" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="10"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="40"
-            android:layout_height="wrap_content"
-            android:text="@string/end_date"
-            android:padding="@dimen/simple_padding"
-            android:onClick="showDatePickerDialog" />
+        </FrameLayout>
 
     </LinearLayout>
-
-
-
-   <!--
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:hint="@string/begin_date"
-            />
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:hint="@string/end_date"/>
-    </com.google.android.material.textfield.TextInputLayout>
--->
-
-
-</LinearLayout>

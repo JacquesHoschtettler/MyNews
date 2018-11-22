@@ -1,10 +1,9 @@
 package com.hoschtettler.jacques.mynews.Controllers.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -32,7 +31,9 @@ public class MainActivity extends AppCompatActivity
     private Toolbar mToolbar ;
     private DrawerLayout mDrawerLayout ;
     private NavigationView mNavigationView ;
+    private NewsViewModel mNewsViewModel ;
 
+    final String EXTRA_ID_BOUTON = "id_bouton" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +49,10 @@ public class MainActivity extends AppCompatActivity
                 .add(R.id.frame_layout_news2, fragment)
                 .commit() ;
 
-        final NewsViewModel mNewsViewModel = ViewModelProviders.of(this)
+        mNewsViewModel = ViewModelProviders.of(this)
                 .get(NewsViewModel.class) ;
 
-        mNewsViewModel.mNewsUrl.observe(this, new Observer<String>()
+        mNewsViewModel.mNewsUrl.observe(this,  new Observer<String>()
         {
             @Override
             public void onChanged(@Nullable String newsUrl)
@@ -59,8 +60,6 @@ public class MainActivity extends AppCompatActivity
                 if(!mNewsViewModel.getChoisedUrl().equals("")) {
                     ArticleFragment newSiteView = new ArticleFragment();
                     newSiteView.setArticleUrl(newsUrl);
-
-                    Log.e("News", "\t\t Url modifié :" + newsUrl) ;
 
                     Bundle args = new Bundle();
                     args.putString(ArticleFragment.ARG_URL, newsUrl);
@@ -83,16 +82,25 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.main_activity_menu_search :
-                Toast.makeText(this, "En attente de recherche", Toast.LENGTH_LONG)
-                        .show();
+               mNewsViewModel.setSearchDisplayIndex(0);
+                launchingActivity(0) ;
                 return true ;
             case R.id.main_activity_menu_parameters :
-                Toast.makeText(this, "En attente de paramètres", Toast.LENGTH_LONG)
-                        .show();
+               mNewsViewModel.setSearchDisplayIndex(1);
+                launchingActivity(1);
                 return true ;
             default :
+                mNewsViewModel.setSearchDisplayIndex(-2);
                 return super.onOptionsItemSelected(item) ;
         }
+    }
+
+    public void launchingActivity(int index)
+    {
+        Intent searchAndNotificationActivity = new Intent(MainActivity.this,
+                SearchAndNotificationActivity.class) ;
+        searchAndNotificationActivity.putExtra(EXTRA_ID_BOUTON, index) ;
+        startActivity(searchAndNotificationActivity);
     }
 
     @Override
