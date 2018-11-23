@@ -59,4 +59,5 @@ dependencies {
     // Transmission of data between fragments and activities : ViewModel
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.0.0"
+    implementation 'com.android.support:design:28.0.0'
 }

@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
 
-public class SearchAndNotificationActivity extends AppCompatActivity {
+public class SearchAndNotificationActivity extends AppCompatActivity  {
 
     final String EXTRA_ID_BOUTON = "id_bouton" ;
 
@@ -26,8 +26,7 @@ public class SearchAndNotificationActivity extends AppCompatActivity {
 
         Intent intent = getIntent() ;
 
-        mNewsViewModel = ViewModelProviders.of(this)
-                .get(NewsViewModel.class) ;
+        mNewsViewModel = ViewModelProviders.of(this).get(NewsViewModel.class) ;
         mNewsViewModel.setSearchDisplayIndex(intent.getIntExtra(EXTRA_ID_BOUTON,-3));
 
         configureToolbar();
@@ -38,11 +37,17 @@ public class SearchAndNotificationActivity extends AppCompatActivity {
                 .commit() ;
     }
 
-    public void showDatePickerDialog(View v) {
+    public void showBeginDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
+        mNewsViewModel.setDateButtonIndex(0);
     }
 
+    public void showEndDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+        mNewsViewModel.setDateButtonIndex(1);
+    }
     private void configureToolbar()
     {
        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar) ;

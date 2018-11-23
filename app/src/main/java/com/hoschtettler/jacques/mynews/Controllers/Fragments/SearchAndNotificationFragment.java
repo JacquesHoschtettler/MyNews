@@ -6,7 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hoschtettler.jacques.mynews.Models.NewsViewModel;
 import com.hoschtettler.jacques.mynews.R;
 
@@ -24,6 +27,9 @@ public class SearchAndNotificationFragment extends Fragment {
 
     @BindView(R.id.begin_date_btn) Button beginBtn ;
     @BindView(R.id.end_date_btn) Button endBtn ;
+    @BindView(R.id.notification_switch) Switch notificationSwitch ;
+    @BindView(R.id.search_dates) LinearLayout searchDates ;
+    @BindView(R.id.search_floating_button) FloatingActionButton searchButton ;
 
     public SearchAndNotificationFragment() {
         // Required empty public constructor
@@ -41,24 +47,33 @@ public class SearchAndNotificationFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_search_and_notification, container, false);
 
-        ButterKnife.bind(view) ;
+        ButterKnife.bind(this, view) ;
 
-        mNewsViewModel = ViewModelProviders.of(this).get(NewsViewModel.class) ;
+        mNewsViewModel = ViewModelProviders.of(getActivity()).get(NewsViewModel.class) ;
 
-        mNewsViewModel.beginDate.observe(this,  new androidx.lifecycle.Observer<String>() {
+        if (mNewsViewModel.getSearchDisplayIndex() == 0)
+        {
+            notificationSwitch.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            searchDates.setVisibility(View.INVISIBLE);
+            searchButton.hide();
+        }
+        mNewsViewModel.beginDate.observe(getActivity(),  new androidx.lifecycle.Observer<String>() {
             @Override
             public void onChanged(String s) {
-                    if (mNewsViewModel.beginDate.getValue() != "")
-                    {
-                        beginBtn.setText(mNewsViewModel.beginDate.getValue());
-                    }
+                if (!mNewsViewModel.beginDate.getValue().equals(""))
+                {
+                    beginBtn.setText(mNewsViewModel.beginDate.getValue());
+                }
             }
         } );
 
         mNewsViewModel.endDate.observe(getActivity(),  new androidx.lifecycle.Observer<String>() {
             @Override
             public void onChanged(String s) {
-                if (mNewsViewModel.endDate.getValue() != "")
+                if (!mNewsViewModel.endDate.getValue().equals(""))
                 {
                     endBtn.setText(mNewsViewModel.endDate.getValue());
                 }
