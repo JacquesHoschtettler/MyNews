@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hoschtettler.jacques.mynews.Models.NewsViewModel;
+import com.hoschtettler.jacques.mynews.Models.QueryDomains;
 import com.hoschtettler.jacques.mynews.R;
 
 import androidx.fragment.app.Fragment;
@@ -24,12 +26,14 @@ import butterknife.ButterKnife;
 public class SearchAndNotificationFragment extends Fragment {
 
     private NewsViewModel mNewsViewModel ;
+    private QueryDomains mQueryDomains ;
 
     @BindView(R.id.begin_date_btn) Button beginBtn ;
     @BindView(R.id.end_date_btn) Button endBtn ;
     @BindView(R.id.notification_switch) Switch notificationSwitch ;
     @BindView(R.id.search_dates) LinearLayout searchDates ;
     @BindView(R.id.search_floating_button) FloatingActionButton searchButton ;
+    @BindView(R.id.search_grid_layout) GridLayout mGridLayout ;
 
     public SearchAndNotificationFragment() {
         // Required empty public constructor
@@ -49,6 +53,8 @@ public class SearchAndNotificationFragment extends Fragment {
 
         ButterKnife.bind(this, view) ;
 
+        configureQueryDomains() ;
+
         mNewsViewModel = ViewModelProviders.of(getActivity()).get(NewsViewModel.class) ;
 
         if (mNewsViewModel.getSearchDisplayIndex() == 0)
@@ -60,6 +66,7 @@ public class SearchAndNotificationFragment extends Fragment {
             searchDates.setVisibility(View.INVISIBLE);
             searchButton.hide();
         }
+
         mNewsViewModel.beginDate.observe(getActivity(),  new androidx.lifecycle.Observer<String>() {
             @Override
             public void onChanged(String s) {
@@ -81,6 +88,18 @@ public class SearchAndNotificationFragment extends Fragment {
         } );
 
         return view ;
+    }
+
+    private void configureQueryDomains()
+    {
+            mQueryDomains = new QueryDomains() ;
+        /*
+            mGridLayout.
+                    setAdapter(new PageAdapter(getSupportFragmentManager(), mQueryDomains)
+            { });
+
+        */
+
     }
 
 }

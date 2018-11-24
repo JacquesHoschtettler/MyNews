@@ -9,8 +9,6 @@
         android:layout_height="wrap_content"
         android:elevation="@dimen/simple_elevation"
 
-        app:title="@string/app_name"
-
         android:theme="@style/ToolbarTheme"
         app:titleTextAppearance="@style/Toolbar.TitleText"
         >

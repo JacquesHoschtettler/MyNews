@@ -59,7 +59,7 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
            break;
            default: toolbar.setTitle(R.string.an_error_has_occured);
        }
-        setSupportActionBar(toolbar);
+       setSupportActionBar(toolbar);
     }
 
 }

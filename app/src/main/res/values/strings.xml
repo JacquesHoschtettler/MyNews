@@ -28,4 +28,6 @@
 
     <string name="Enable_notification">Enable notifications (once per day)</string>
 
+    <string name="About_message">This news are provided by the NewYork Times © \n Author : Jacques Hoschtettler \n on a idea by OpenclassRooms©</string>
+
 </resources>

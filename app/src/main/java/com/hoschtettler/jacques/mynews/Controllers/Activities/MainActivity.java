@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -89,6 +90,9 @@ public class MainActivity extends AppCompatActivity
                mNewsViewModel.setSearchDisplayIndex(1);
                 launchingActivity(1);
                 return true ;
+            case R.id.main_activity_about :
+                Toast.makeText(this, R.string.About_message, Toast.LENGTH_LONG)
+                        .show();
             default :
                 mNewsViewModel.setSearchDisplayIndex(-2);
                 return super.onOptionsItemSelected(item) ;
