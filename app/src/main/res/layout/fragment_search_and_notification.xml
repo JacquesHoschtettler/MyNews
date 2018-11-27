@@ -18,12 +18,15 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/double_padding">
+            android:padding="@dimen/double_padding"
+            android:hint="@string/query_hint"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/query_term_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/query_hint"
+                android:onClick="onCheckboxClicked"
                 android:textColorHint="@color/colorPrimaryLight"
                 android:textColor="@color/colorSecondary"
                 />
@@ -75,26 +78,87 @@
 
         </LinearLayout>
 
-        <GridLayout
+        <androidx.gridlayout.widget.GridLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/search_grid_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="3"
-            >
+            app:columnCount="3"
+            app:rowCount="4">
 
-
-
-            <Space
-                android:layout_columnWeight="5"
+            <CheckBox
+                android:id="@+id/query_domain_0"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_column="1"
+                app:layout_columnWeight="10"
+                android:onClick="onCheckboxClicked"
+                android:tag="0"
                 />
 
+            <Space/>
 
+            <CheckBox
+                android:id="@+id/query_domain_1"
+                android:layout_width="0dp"
+                app:layout_columnWeight="10"
+                android:onClick="onCheckboxClicked"
+                android:tag="1"
+                />
 
-        </GridLayout >
+            <CheckBox
+                android:id="@+id/query_domain_2"
+                android:layout_width="0dp"
+                app:layout_columnWeight="10"
+                android:onClick="onCheckboxClicked"
+                android:tag="2"
+                />
+
+            <Space/>
+
+            <CheckBox
+                android:id="@+id/query_domain_3"
+                android:layout_width="0dp"
+                app:layout_columnWeight="10"
+                android:onClick="onCheckboxClicked"
+                android:tag="3"
+                />
+
+            <CheckBox
+                android:id="@+id/query_domain_4"
+                android:layout_width="0dp"
+                app:layout_columnWeight="10"
+                android:onClick="onCheckboxClicked"
+                android:tag="4"
+                />
+
+            <Space/>
+
+            <CheckBox
+                android:id="@+id/query_domain_5"
+                android:layout_width="0dp"
+                app:layout_columnWeight="10"
+                android:onClick="onCheckboxClicked"
+                android:tag="5"
+                />
+
+            <CheckBox
+                android:id="@+id/query_domain_6"
+                android:layout_width="0dp"
+                app:layout_columnWeight="10"
+                android:onClick="onCheckboxClicked"
+                android:tag="6"
+                />
+
+            <Space/>
+
+            <CheckBox
+                android:id="@+id/query_domain_7"
+                android:layout_width="0dp"
+                app:layout_columnWeight="10"
+                android:onClick="onCheckboxClicked"
+                android:tag="7"
+                />
+
+        </androidx.gridlayout.widget.GridLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/search_floating_button"
@@ -111,7 +175,7 @@
             android:id="@+id/notification_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/Enable_notification"
+            android:text="@string/enable_notification"
             android:textColor="@color/colorPrimaryLight"
             android:layout_gravity="bottom"/>
 

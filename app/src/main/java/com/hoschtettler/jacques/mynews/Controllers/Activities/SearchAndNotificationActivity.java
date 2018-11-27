@@ -2,7 +2,9 @@ package com.hoschtettler.jacques.mynews.Controllers.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 
 import com.hoschtettler.jacques.mynews.Controllers.Fragments.SearchAndNotificationFragment;
 import com.hoschtettler.jacques.mynews.Models.NewsViewModel;
@@ -26,6 +28,7 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
 
         Intent intent = getIntent() ;
 
+        mNewsViewModel = new NewsViewModel() ;
         mNewsViewModel = ViewModelProviders.of(this).get(NewsViewModel.class) ;
         mNewsViewModel.setSearchDisplayIndex(intent.getIntExtra(EXTRA_ID_BOUTON,-3));
 
@@ -60,6 +63,60 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
            default: toolbar.setTitle(R.string.an_error_has_occured);
        }
        setSupportActionBar(toolbar);
+    }
+
+    public void onCheckboxClicked(View v)
+    {
+        switch(v.getId()) {
+            case R.id.query_domain_0:
+                checkedBoxesCount(v, 0);
+                break;
+            case R.id.query_domain_1:
+                checkedBoxesCount(v, 1);
+                break;
+            case R.id.query_domain_2:
+                checkedBoxesCount(v, 2);
+                break;
+            case R.id.query_domain_3:
+                checkedBoxesCount(v, 3);
+                break;
+            case R.id.query_domain_4:
+                checkedBoxesCount(v, 4);
+                break;
+            case R.id.query_domain_5:
+                checkedBoxesCount(v, 5);
+                break;
+            case R.id.query_domain_6:
+                checkedBoxesCount(v, 6);
+                break;
+            case R.id.query_domain_7:
+                checkedBoxesCount(v, 7);
+                break;
+            default:
+        }
+        Log.d("MyNews", "SearcAndNotificationActivity : onClick : mBoxesChecked : "
+                + mNewsViewModel.getCheckedBoxesNumber()) ;
+    }
+
+    private void checkedBoxesCount(View v, int index)
+    {
+        Integer checkedBoxesNumber = mNewsViewModel.getCheckedBoxesNumber() ;
+        if (checkedBoxesNumber == null)
+        {
+            checkedBoxesNumber = 0 ;
+        }
+        CheckBox checkBox = (CheckBox) v ;
+        if (checkBox.isChecked())
+        {
+            checkedBoxesNumber++;
+            mNewsViewModel.setCheckedBoxes(index, true);
+        }
+        else
+        {
+            checkedBoxesNumber-- ;
+            mNewsViewModel.setCheckedBoxes(index, false);
+        }
+        mNewsViewModel.setCheckedBoxesNumber(checkedBoxesNumber);
     }
 
 }

@@ -1,13 +1,9 @@
 package com.hoschtettler.jacques.mynews.Controllers.Fragments;
 
 
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +13,9 @@ import com.hoschtettler.jacques.mynews.R;
 import com.hoschtettler.jacques.mynews.Utils.ItemClickSupport;
 import com.hoschtettler.jacques.mynews.Utils.NewsAdapter;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
@@ -77,9 +76,7 @@ public abstract class NewsPage extends Fragment {
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        Log.e("News", "Position : " + position);
-                        Log.e("News","Url :" + mNewsAdapter.getUrl(position)) ;
-                        mNewsUrl.setChoisedUrl(mNewsAdapter.getUrl(position));
+                        mNewsUrl.setChosendUrl(mNewsAdapter.getUrl(position));
                     }
                 });
     }

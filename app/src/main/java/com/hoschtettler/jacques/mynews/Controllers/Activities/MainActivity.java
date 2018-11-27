@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onChanged(@Nullable String newsUrl)
             {
-                if(!mNewsViewModel.getChoisedUrl().equals("")) {
+                if(!mNewsViewModel.getChosendUrl().equals("")) {
                     ArticleFragment newSiteView = new ArticleFragment();
                     newSiteView.setArticleUrl(newsUrl);
 
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity
                     transaction.addToBackStack(null);
                     transaction.commit();
 
-                    mNewsViewModel.setChoisedUrl("");
+                    mNewsViewModel.setChosendUrl("");
                 }
             }
         });
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity
                 launchingActivity(1);
                 return true ;
             case R.id.main_activity_about :
-                Toast.makeText(this, R.string.About_message, Toast.LENGTH_LONG)
+                Toast.makeText(this, R.string.about_message, Toast.LENGTH_LONG)
                         .show();
             default :
                 mNewsViewModel.setSearchDisplayIndex(-2);

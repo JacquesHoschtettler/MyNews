@@ -26,8 +26,8 @@
     <string name="notifications">Notifications</string>
     <string name="an_error_has_occured">An error has occured</string>
 
-    <string name="Enable_notification">Enable notifications (once per day)</string>
+    <string name="enable_notification">Enable notifications (once per day)</string>
 
-    <string name="About_message">This news are provided by the NewYork Times © \n Author : Jacques Hoschtettler \n on a idea by OpenclassRooms©</string>
+    <string name="about_message">This news are provided by the NewYork Times © \n Author : Jacques Hoschtettler \n on a idea by OpenclassRooms©</string>
 
 </resources>
