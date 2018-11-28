@@ -30,8 +30,8 @@ public interface NewsInterface
     Observable<FreeSubjectStructure> getArt() ;
 
     // https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&api-key=965b938d9e72418291dc79bbee0b1084
-    @GET ("search/v2/articlesearch.json?sort=newest&api-key=965b938d9e72418291dc79bbee0b1084")
-    Observable<FreeSubjectStructure> getSearchSubject(@Query("q") String query,
+    @GET ("search/v2/articlesearch.json?{q}&{fq}&{begin_date}&{end_date}&sort=newest&api-key=965b938d9e72418291dc79bbee0b1084")
+    Observable<FreeSubjectStructure> getSearchSubject(@Query("q") String query, @Query("fq") String queryDomains,
                                                     @Query("begin_date") String beginDate, @Query("end_date") String endDate) ;
 
 

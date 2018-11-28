@@ -17,20 +17,27 @@ public class NewsViewModel extends ViewModel
     public MutableLiveData<String> endDate ;
     public MutableLiveData<Integer>  mCheckedBoxesNumber ;
     private Boolean[] mCheckedBoxes ;
+    private int numberOfBoxes ;
 
     // Constructor
     public NewsViewModel()
     {
         super() ;
+        numberOfBoxes = 8 ;
         beginDate = new MutableLiveData<>() ;
         endDate = new MutableLiveData<>() ;
         searchDisplayIndex = -1 ;
         dateButtonIndex = -1 ;
         mCheckedBoxesNumber = new MutableLiveData<>()     ;
         mCheckedBoxesNumber.setValue(0);
-        mCheckedBoxes = new Boolean[8] ;
+        mCheckedBoxes = new Boolean[numberOfBoxes] ;
+        for (int i = 0 ; i < numberOfBoxes; i++)
+        {
+            this.setCheckedBoxes(i, false);
+        }
         beginDate.setValue("");
         endDate.setValue("");
+        queryTerm= "" ;
     }
 
     // Setters and getters
@@ -120,7 +127,7 @@ public class NewsViewModel extends ViewModel
 
         public Boolean getCheckedBoxes(int index)
         {
-            if (index < mCheckedBoxes.length)
+            if (index < numberOfBoxes)
             {
                 return mCheckedBoxes[index] ;
             }
@@ -128,6 +135,11 @@ public class NewsViewModel extends ViewModel
             {
                 return false ;
             }
+        }
 
+        // getting the number of check boxes
+        public int getNumberOfBoxes()
+        {
+            return numberOfBoxes ;
         }
 }

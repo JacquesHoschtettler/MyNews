@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
-public class ScienceFragment extends NewsPage {
+public class
+
+ScienceFragment extends NewsPage {
     private Disposable mDisposable;
     private Response mSciencetResults;
     private ArrayList<News> mNews;

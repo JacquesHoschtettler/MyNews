@@ -165,11 +165,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|end"
-            android:backgroundTint="@color/colorSecondary"
-            android:elevation="@dimen/simple_elevation"
             android:layout_margin="@dimen/double_padding"
+            android:backgroundTint="@color/colorPrimary"
+            android:elevation="@dimen/double_elevation"
+            android:tint="@color/colorSecondary"
+            app:backgroundTintMode="multiply"
+            app:elevation="10dp"
+            app:hoveredFocusedTranslationZ="@dimen/double_elevation"
+            app:pressedTranslationZ="@dimen/simple_elevation"
+            app:rippleColor="@color/colorSecondaryDark"
             app:srcCompat="@mipmap/ic_search_white_36dp"
-            />
+            android:onClick="searchingArticles"/>
 
         <Switch
             android:id="@+id/notification_switch"

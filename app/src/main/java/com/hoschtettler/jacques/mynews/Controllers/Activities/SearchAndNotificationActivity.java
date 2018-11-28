@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 
 import com.hoschtettler.jacques.mynews.Controllers.Fragments.SearchAndNotificationFragment;
 import com.hoschtettler.jacques.mynews.Models.NewsViewModel;
+import com.hoschtettler.jacques.mynews.Models.QueryDomains;
 import com.hoschtettler.jacques.mynews.R;
 import com.hoschtettler.jacques.mynews.Utils.DatePickerFragment;
 
@@ -94,8 +95,6 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
                 break;
             default:
         }
-        Log.d("MyNews", "SearcAndNotificationActivity : onClick : mBoxesChecked : "
-                + mNewsViewModel.getCheckedBoxesNumber()) ;
     }
 
     private void checkedBoxesCount(View v, int index)
@@ -119,4 +118,44 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
         mNewsViewModel.setCheckedBoxesNumber(checkedBoxesNumber);
     }
 
+    public void searchingArticles(View v)
+    {
+        String queryTerm ;
+        String formattedBeginDate ;
+        String formattedEndDate ;
+        String formattedQueryDomains ;
+        QueryDomains domains = new QueryDomains() ;
+
+        queryTerm = mNewsViewModel.getQueryTerm() ;
+
+        formattedBeginDate = formatingDate(mNewsViewModel.getBeginDate());
+        formattedEndDate = formatingDate(mNewsViewModel.getEndDate()) ;
+
+        formattedQueryDomains = "";
+        for (int i = 0 ; i < mNewsViewModel.getNumberOfBoxes(); i++)
+        {
+            if (mNewsViewModel.getCheckedBoxes(i))
+            {
+                if (formattedQueryDomains.length() > 0)
+                {
+                    formattedQueryDomains += ",";
+                }
+                formattedQueryDomains += domains.getQueryDomain(i) ;
+            }
+        }
+
+        Log.d("MyNews", "SearchAndNotificationActivity : searchingArticles :") ;
+        Log.d("MyNews", "\t −−> Query term = " + queryTerm) ;
+        Log.d("MyNews", "\t −−> Begin date = " + formattedBeginDate) ;
+        Log.d("MyNews", "\t −−> End date = "+ formattedEndDate) ;
+         Log.d("MyNews", "\t −−> Domains :" + formattedQueryDomains) ;
+    }
+
+    private String formatingDate(String date)
+    {
+        String formattedDate ;
+        formattedDate = date.substring(0,4) + date.substring(5, 7)
+                + date.substring(8) ;
+        return formattedDate ;
+    }
 }

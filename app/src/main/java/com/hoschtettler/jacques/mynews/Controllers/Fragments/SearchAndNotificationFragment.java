@@ -4,7 +4,6 @@ package com.hoschtettler.jacques.mynews.Controllers.Fragments;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +30,12 @@ import butterknife.ButterKnife;
  */
 public class SearchAndNotificationFragment extends Fragment {
 
-    private NewsViewModel mNewsViewModel = new NewsViewModel() ;
+    private NewsViewModel mNewsViewModel ;
     private QueryDomains mQueryDomains ;
-    private int mBoxesChecked = 0 ;
+    private int mBoxesChecked ;
+    final private String QueryTerm = "EXTRA_QUERY_TERM" ;
+    private String mQueryTerm ;
+
 
     @BindView(R.id.begin_date_btn) Button beginBtn ;
     @BindView(R.id.end_date_btn) Button endBtn ;
@@ -41,8 +43,6 @@ public class SearchAndNotificationFragment extends Fragment {
     @BindView(R.id.search_dates) LinearLayout searchDates ;
     @BindView(R.id.search_floating_button) FloatingActionButton searchButton ;
     @BindView(R.id.search_grid_layout) GridLayout mGridLayout ;
-    @BindView(R.id.query_domain_0) CheckBox mCheckBox0 ;
-    @BindView(R.id.query_domain_1) CheckBox mCheckBox1 ;
     @BindView(R.id.query_term_input) TextInputEditText mQueryTermInput ;
 
     public SearchAndNotificationFragment() {
@@ -53,6 +53,10 @@ public class SearchAndNotificationFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null)
+        {
+            mQueryTerm = (String) savedInstanceState.get(QueryTerm) ;
+        }
     }
 
     @Override
@@ -63,18 +67,19 @@ public class SearchAndNotificationFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
-        configureQueryDomains(view);
-
+        mNewsViewModel = new NewsViewModel() ;
         mNewsViewModel = ViewModelProviders.of(getActivity()).get(NewsViewModel.class);
 
+        configureQueryDomains(view);
+
+         // Displaying the good UI according to the selected function : searching articles or notifications.
         if (mNewsViewModel.getSearchDisplayIndex() == 0) {
-            notificationSwitch.setVisibility(View.INVISIBLE);
-            if (mBoxesChecked < 1) {
-                searchButton.setClickable(false);
-            }
+            notificationSwitch.setVisibility(View.GONE);
+            managingTheButton();
         } else {
             searchDates.setVisibility(View.GONE);
             searchButton.hide();
+            managingTheButton();
         }
 
         // Managing the begin and end dates
@@ -98,8 +103,6 @@ public class SearchAndNotificationFragment extends Fragment {
             }
         });
 
-
-
         // Managing the query term
         mQueryTermInput.addTextChangedListener(new TextWatcher() {
             @Override
@@ -111,16 +114,26 @@ public class SearchAndNotificationFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                     mNewsViewModel.setQueryTerm(s.toString());
-                    Log.d("MyNews", "SearchAndNotificationFragment : mmQueryTermInput.addTextChangedListener : query term = " +s.toString() ) ;
-                    allowingTheActionButton(s.toString()) ;
+                    mQueryTerm = s.toString() ;
+                    managingTheButton(); ;
              }
         });
 
+        // Managing the button
+        mNewsViewModel.mCheckedBoxesNumber.observe(getActivity(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                managingTheButton();
+            }
+        });
 
         return view;
     }
 
-
+// **********************
+    // private methods
+// **********************
+    // Revering the dates order if the begin date is after the end date.
     private void beginBeforeEnd()
     {
         if (!mNewsViewModel.getEndDate().equals("") && !mNewsViewModel.getBeginDate().equals("")) {
@@ -132,6 +145,7 @@ public class SearchAndNotificationFragment extends Fragment {
         }
     }
 
+    // Checking if the dates are in the right order. If not it returns false.
     private boolean datesInOrder()
     {
         int beginYear = Integer.parseInt(mNewsViewModel.getBeginDate().substring(0,4)) ;
@@ -143,69 +157,110 @@ public class SearchAndNotificationFragment extends Fragment {
         int endDay = Integer.parseInt(mNewsViewModel.getEndDate().substring(8,10)) ;
 
         if (beginYear < endYear)
+        {            return true ; }
+        else {
+            if (beginYear == endYear)
+            {
+                if (beginMonth < endMonth)
+                {   return true ; }
+                else
+                {   if (beginMonth == endMonth)
+                    {
+                        if (beginDay <= endDay)
+                        {   return true ; }
+                        else {
+                            return false ; }
+                    }
+                    else
+                    {   return false ; }
+                }
+            }
+            else
+                {  return false; }
+        }
+    }
+
+    // Setting up the check boxes.
+    private void configureQueryDomains(View view)
+    {
+           mQueryDomains = new QueryDomains() ;
+           if (mNewsViewModel.mCheckedBoxesNumber.equals(null))
+           {
+               mBoxesChecked = 0 ;
+           }
+           else
+           {
+               mBoxesChecked = mNewsViewModel.getCheckedBoxesNumber() ;
+           }
+
+            for(int i = 0 ; i < mQueryDomains.getQueryDomainsNumber(); i++)
+            {
+                CheckBox checkBox = view.findViewById(mQueryDomains.getCheckBoxId(i)) ;
+                checkBox.setText(mQueryDomains.getQueryDomain(i));
+                checkBox.setChecked(mNewsViewModel.getCheckedBoxes(i));
+            }
+    }
+
+    // Checking if a query term is input AND if at least a checkbox is checked.
+    private boolean allowingTheActionButton()
+    {
+        if (!mNewsViewModel.getQueryTerm().equals("") && mNewsViewModel.getCheckedBoxesNumber() > 0)
         {
             return true ;
         }
         else
         {
-            if (beginYear == endYear)
-            {
-                if (beginMonth < endMonth)
-                {
-                    return true ;
-                }
-                else
-                {
-                    if (beginMonth == endMonth)
-                    {
-                        if (beginDay <= endDay)
-                        {
-                            return true ;
-                        }
-                        else
-                        {
-                            return false ;
-                        }
-                    }
-                    else
-                    {
-                        return false ;
-                    }
-                }
-            }
-            else {
-                return false;
-            }
+            return false ;
         }
     }
-    private void configureQueryDomains(View view)
-    {
-           mQueryDomains = new QueryDomains() ;
-           mBoxesChecked = 0 ;
-            for(int i = 0 ; i < mQueryDomains.getQueryDomainsNumber(); i++)
-            {
-                CheckBox checkBox = view.findViewById(mQueryDomains.getCheckBoxId(i)) ;
-                if (checkBox.isChecked())
-                {
-                    mBoxesChecked++ ;
-                }
-                checkBox.setText(mQueryDomains.getQueryDomain(i));
-            }
-            mNewsViewModel.setCheckedBoxesNumber(mBoxesChecked) ;
-            Log.d("MyNews", "SearcAndNotificationFragment : configureQueryDomains : "
-                    +"mBoxesChecked : " + mBoxesChecked) ;
-    }
 
-    private void allowingTheActionButton(String term)
+    // Managing the buttons
+    private void managingTheButton()
     {
-        if (!term.equals("") && mNewsViewModel.getCheckedBoxesNumber() > 0)
-        {
-            Log.d("MyNews" ,"SearchAndNotificationFragment : allowingTheActionButton : Allowed") ;
+        boolean allowed = allowingTheActionButton() ;
+        if (mNewsViewModel.getSearchDisplayIndex() == 0) {
+            searchButton.setClickable(allowed);
+            if (allowed)
+            {
+                searchButton.setCompatElevationResource(R.dimen.double_elevation);
+                searchButton.setColorFilter(getResources().getColor(R.color.colorSecondary));
+            }
+            else
+            {
+                searchButton.setCompatElevationResource(R.dimen.null_elevation);
+                searchButton.setColorFilter(getResources().getColor(R.color.colorPrimaryLight));
+            }
         }
         else
         {
-            Log.d("MyNews" ,"SearchAndNotificationFragment : allowingTheActionButton : −−> Not Allowed") ;
+            notificationSwitch.setClickable(allowed) ;
+            if (allowed)
+            {
+                notificationSwitch.setTextColor(getResources().getColor(R.color.colorSecondary));
+            }
+            else
+            {
+                notificationSwitch.setTextColor(getResources().getColor(R.color.colorPrimaryLight));
+            }
         }
-
     }
+
+    private int buttonColor(boolean colorChoice)
+    {
+        if (colorChoice)
+        {
+            return R.color.colorSecondary ;
+        }
+        else
+        {
+            return R.color.colorPrimaryLight ;
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putCharSequence(QueryTerm, mQueryTerm);
+    }
+
 }
