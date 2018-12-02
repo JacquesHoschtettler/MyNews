@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.hoschtettler.jacques.mynews.Models.NewsViewModel;
 import com.hoschtettler.jacques.mynews.R;
 import com.hoschtettler.jacques.mynews.Utils.ItemClickSupport;
-import com.hoschtettler.jacques.mynews.Utils.NewsAdapter;
+import com.hoschtettler.jacques.mynews.Views.NewsAdapter;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;

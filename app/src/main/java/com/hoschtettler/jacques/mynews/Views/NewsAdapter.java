@@ -1,6 +1,5 @@
-package com.hoschtettler.jacques.mynews.Utils;
+package com.hoschtettler.jacques.mynews.Views;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,10 +7,11 @@ import android.view.ViewGroup;
 import com.bumptech.glide.RequestManager;
 import com.hoschtettler.jacques.mynews.Models.News;
 import com.hoschtettler.jacques.mynews.R;
-import com.hoschtettler.jacques.mynews.Views.NewsViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
 

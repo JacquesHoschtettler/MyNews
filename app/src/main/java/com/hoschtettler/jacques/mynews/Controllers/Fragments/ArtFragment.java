@@ -8,7 +8,7 @@ import com.hoschtettler.jacques.mynews.Models.FreeSubject.Doc;
 import com.hoschtettler.jacques.mynews.Models.FreeSubject.FreeSubjectStructure;
 import com.hoschtettler.jacques.mynews.Models.FreeSubject.Response;
 import com.hoschtettler.jacques.mynews.Models.News;
-import com.hoschtettler.jacques.mynews.Utils.NewsAdapter;
+import com.hoschtettler.jacques.mynews.Views.NewsAdapter;
 import com.hoschtettler.jacques.mynews.Utils.NewsStreams;
 
 import java.util.ArrayList;

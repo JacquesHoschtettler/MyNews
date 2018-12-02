@@ -6,7 +6,7 @@ import com.bumptech.glide.Glide;
 import com.hoschtettler.jacques.mynews.Models.News;
 import com.hoschtettler.jacques.mynews.Models.TopStories.TopStoriesResult;
 import com.hoschtettler.jacques.mynews.Models.TopStories.TopsStoriesStructure;
-import com.hoschtettler.jacques.mynews.Utils.NewsAdapter;
+import com.hoschtettler.jacques.mynews.Views.NewsAdapter;
 import com.hoschtettler.jacques.mynews.Utils.NewsStreams;
 
 import java.util.ArrayList;

@@ -2,10 +2,10 @@ package com.hoschtettler.jacques.mynews.Controllers.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 
+import com.hoschtettler.jacques.mynews.Controllers.Fragments.ArticleFragment;
 import com.hoschtettler.jacques.mynews.Controllers.Fragments.SearchAndNotificationFragment;
 import com.hoschtettler.jacques.mynews.Controllers.Fragments.SearchArticlesFragment;
 import com.hoschtettler.jacques.mynews.Models.NewsViewModel;
@@ -13,8 +13,11 @@ import com.hoschtettler.jacques.mynews.Models.QueryDomains;
 import com.hoschtettler.jacques.mynews.R;
 import com.hoschtettler.jacques.mynews.Utils.DatePickerFragment;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 public class SearchAndNotificationActivity extends AppCompatActivity  {
@@ -40,6 +43,32 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.frame_layout_search_and_notification, fragment)
                 .commit() ;
+
+
+        mNewsViewModel = ViewModelProviders.of(this)
+                .get(NewsViewModel.class) ;
+
+        mNewsViewModel.mNewsUrl.observe(this,  new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String newsUrl) {
+                if (!mNewsViewModel.getChosendUrl().equals("")) {
+                    ArticleFragment newSiteView = new ArticleFragment();
+                    newSiteView.setArticleUrl(newsUrl);
+
+                    Bundle args = new Bundle();
+                    args.putString(ArticleFragment.ARG_URL, newsUrl);
+                    newSiteView.setArguments(args);
+
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.frame_layout_search_and_notification, newSiteView);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+
+                    mNewsViewModel.setChosendUrl("");
+                }
+            }
+        });
+
     }
 
     public void showBeginDatePickerDialog(View v) {
@@ -53,6 +82,7 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
         newFragment.show(getSupportFragmentManager(), "datePicker");
         mNewsViewModel.setDateButtonIndex(1);
     }
+
     private void configureToolbar()
     {
        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar) ;
@@ -146,7 +176,6 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
             }
         }
         formattedQueryDomains += ")";
-        Log.d("MyNews", "searchingArticles : query domains = " +formattedQueryDomains) ;
 
         // Passage of the stream parameters to the SearchArticlesFragment
         mNewsViewModel.setFormattedBeginDate(formattedBeginDate);
