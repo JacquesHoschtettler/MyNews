@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import com.hoschtettler.jacques.mynews.Controllers.Fragments.SearchAndNotificationFragment;
+import com.hoschtettler.jacques.mynews.Controllers.Fragments.SearchArticlesFragment;
 import com.hoschtettler.jacques.mynews.Models.NewsViewModel;
 import com.hoschtettler.jacques.mynews.Models.QueryDomains;
 import com.hoschtettler.jacques.mynews.R;
@@ -120,42 +121,56 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
 
     public void searchingArticles(View v)
     {
-        String queryTerm ;
         String formattedBeginDate ;
         String formattedEndDate ;
         String formattedQueryDomains ;
         QueryDomains domains = new QueryDomains() ;
 
-        queryTerm = mNewsViewModel.getQueryTerm() ;
-
+        // Transformation of the datas to the endpoint format.
         formattedBeginDate = formatingDate(mNewsViewModel.getBeginDate());
         formattedEndDate = formatingDate(mNewsViewModel.getEndDate()) ;
 
-        formattedQueryDomains = "";
+        formattedQueryDomains = "(\"";
+        int CheckedBoxesCounter = 0 ;
         for (int i = 0 ; i < mNewsViewModel.getNumberOfBoxes(); i++)
         {
             if (mNewsViewModel.getCheckedBoxes(i))
             {
-                if (formattedQueryDomains.length() > 0)
+                if (CheckedBoxesCounter > 0)
                 {
-                    formattedQueryDomains += ",";
+                    formattedQueryDomains += " \"";
                 }
                 formattedQueryDomains += domains.getQueryDomain(i) ;
+                formattedQueryDomains += "\"" ;
+                ++CheckedBoxesCounter ;
             }
         }
+        formattedQueryDomains += ")";
+        Log.d("MyNews", "searchingArticles : query domains = " +formattedQueryDomains) ;
 
-        Log.d("MyNews", "SearchAndNotificationActivity : searchingArticles :") ;
-        Log.d("MyNews", "\t −−> Query term = " + queryTerm) ;
-        Log.d("MyNews", "\t −−> Begin date = " + formattedBeginDate) ;
-        Log.d("MyNews", "\t −−> End date = "+ formattedEndDate) ;
-         Log.d("MyNews", "\t −−> Domains :" + formattedQueryDomains) ;
+        // Passage of the stream parameters to the SearchArticlesFragment
+        mNewsViewModel.setFormattedBeginDate(formattedBeginDate);
+        mNewsViewModel.setFormattedEndDate(formattedEndDate);
+        mNewsViewModel.setFormattedQueryDomains(formattedQueryDomains);
+
+        // Calling the SearchFragment
+        SearchArticlesFragment fragment = new SearchArticlesFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout_search_and_notification, fragment)
+                .addToBackStack(null)
+                .commit() ;
     }
 
     private String formatingDate(String date)
     {
-        String formattedDate ;
-        formattedDate = date.substring(0,4) + date.substring(5, 7)
-                + date.substring(8) ;
-        return formattedDate ;
+        if (date != "") {
+            String formattedDate;
+            formattedDate = date.substring(0, 4) + date.substring(5, 7)
+                    + date.substring(8);
+            return formattedDate;
+        }
+            {
+                return "" ;
+            }
     }
 }

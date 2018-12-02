@@ -12,9 +12,16 @@ public class NewsViewModel extends ViewModel
 
     private int searchDisplayIndex ;
     private int dateButtonIndex ;
+
+
     private String queryTerm ;
     public MutableLiveData<String> beginDate ;
     public MutableLiveData<String> endDate ;
+
+    private String formattedBeginDate ;
+    private String formattedEndDate ;
+    private String formattedQueryDomains ;
+
     public MutableLiveData<Integer>  mCheckedBoxesNumber ;
     private Boolean[] mCheckedBoxes ;
     private int numberOfBoxes ;
@@ -26,6 +33,9 @@ public class NewsViewModel extends ViewModel
         numberOfBoxes = 8 ;
         beginDate = new MutableLiveData<>() ;
         endDate = new MutableLiveData<>() ;
+        formattedBeginDate = "" ;
+        formattedEndDate = "" ;
+        formattedQueryDomains = "" ;
         searchDisplayIndex = -1 ;
         dateButtonIndex = -1 ;
         mCheckedBoxesNumber = new MutableLiveData<>()     ;
@@ -107,7 +117,41 @@ public class NewsViewModel extends ViewModel
                 return this.endDate.getValue() ;
             }
 
-        // Search and notification UI : checked boxes
+         // Fomatted begin date, parameter for the endpoint to search articles
+            public void setFormattedBeginDate(String formattedDate)
+            {
+                this.formattedBeginDate = formattedDate ;
+            }
+
+            public String getFormattedBeginDate()
+            {
+                return this.formattedBeginDate ;
+            }
+
+        // Fomatted end date, parameter for the endpoint to search articles
+            public void setFormattedEndDate(String formattedDate)
+            {
+                this.formattedEndDate = formattedDate ;
+            }
+
+            public String getFormattedEndDate()
+            {
+                return this.formattedEndDate ;
+            }
+
+        // Fomatted list of chosen domains, parameter for the endpoint to search articles
+            public void setFormattedQueryDomains(String queryDomains)
+            {
+                this.formattedQueryDomains = queryDomains ;
+            }
+
+            public String getFormattedQueryDomains()
+            {
+                return this.formattedQueryDomains ;
+            }
+
+
+    // Search and notification UI : checked boxes
         public void setCheckedBoxesNumber(int checkedBoxesNumber) {this.mCheckedBoxesNumber.setValue(checkedBoxesNumber) ;}
 
         public int getCheckedBoxesNumber() {

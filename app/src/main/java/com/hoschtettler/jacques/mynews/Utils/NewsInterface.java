@@ -1,5 +1,7 @@
 package com.hoschtettler.jacques.mynews.Utils;
 
+import android.support.v4.media.session.PlaybackStateCompat.ErrorCode;
+
 import com.hoschtettler.jacques.mynews.Models.FreeSubject.FreeSubjectStructure;
 import com.hoschtettler.jacques.mynews.Models.MostPopular.MostPopularStructure;
 import com.hoschtettler.jacques.mynews.Models.TopStories.TopsStoriesStructure;
@@ -29,16 +31,44 @@ public interface NewsInterface
     @GET ("search/v2/articlesearch.json?fq=news_desk:\"Arts\"&sort=newest&api-key=965b938d9e72418291dc79bbee0b1084")
     Observable<FreeSubjectStructure> getArt() ;
 
-    // https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&api-key=965b938d9e72418291dc79bbee0b1084
-    @GET ("search/v2/articlesearch.json?{q}&{fq}&{begin_date}&{end_date}&sort=newest&api-key=965b938d9e72418291dc79bbee0b1084")
-    Observable<FreeSubjectStructure> getSearchSubject(@Query("q") String query, @Query("fq") String queryDomains,
-                                                    @Query("begin_date") String beginDate, @Query("end_date") String endDate) ;
+
+// https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&api-key=965b938d9e72418291dc79bbee0b1084
+    @GET("search/v2/articlesearch.json?sort=newest&api-key=965b938d9e72418291dc79bbee0b1084")
+    @ErrorCode
+    Observable<FreeSubjectStructure> getSearchSubject11(
+                @Query("q") String query,
+                @Query("fq") String queryDomains,
+                @Query("begin_date") String beginDate,
+                @Query("end_date") String endDate);
+
+    @GET("search/v2/articlesearch.json?sort=newest&api-key=965b938d9e72418291dc79bbee0b1084")
+    @ErrorCode
+    Observable<FreeSubjectStructure> getSearchSubject00(
+                @Query("q") String query,
+                @Query("fq") String queryDomains) ;
+
+    @GET("search/v2/articlesearch.json?sort=newest&api-key=965b938d9e72418291dc79bbee0b1084")
+    @ErrorCode
+    Observable<FreeSubjectStructure> getSearchSubject10(
+                @Query("q") String query,
+                @Query("fq") String queryDomains,
+                @Query("begin_date") String beginDate);
+
+    @GET("search/v2/articlesearch.json?sort=newest&api-key=965b938d9e72418291dc79bbee0b1084")
+    @ErrorCode
+    Observable<FreeSubjectStructure> getSearchSubject01(
+                @Query("q") String query,
+                @Query("fq") String queryDomains,
+                @Query("end_date") String endDate);
 
 
-
+// ***************************
+// Main method, with base URL.
+// ***************************
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://api.nytimes.com/svc/")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build() ;
 }
+// https://api.nytimes.com/svc/search/v2/articlesearch.json?query=Canada&fq=Politics&begin_date=20181120&end_date20181122&sort=newest&api-key=965b938d9e72418291dc79bbee0b1084

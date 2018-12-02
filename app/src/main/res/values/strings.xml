@@ -29,5 +29,9 @@
     <string name="enable_notification">Enable notifications (once per day)</string>
 
     <string name="about_message">This news are provided by the NewYork Times © \n Author : Jacques Hoschtettler \n on a idea by OpenclassRooms©</string>
+    <string name="none_articles_found">There is no articles for : \n\tquery = </string>
+    <string name="none_article_begin_date">\n\tfrom : </string>
+    <string name="none_article_end_date">\n\tto :</string>
+    <string name="none_article_query_filters">\n\tin the domains :</string>
 
 </resources>
