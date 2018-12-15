@@ -2,14 +2,14 @@ package com.hoschtettler.jacques.mynews.Controllers.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import com.hoschtettler.jacques.mynews.R;
+
+import androidx.fragment.app.Fragment;
 
 public class ArticleFragment extends Fragment {
 
@@ -45,7 +45,6 @@ public class ArticleFragment extends Fragment {
     public void onStart()
     {
         super.onStart();
-        Log.e("News", "ArticleFragment.onStart : "+mArticleUrl) ;
         updateUI();
     }
 
@@ -53,14 +52,12 @@ public class ArticleFragment extends Fragment {
     public void setArticleUrl(String articleUrl)
     {
         mArticleUrl = articleUrl ;
-        Log.e("News", "ArticleFragment.setArticleUrl : "+mArticleUrl) ;
     }
 
 
     public void updateUI()
     {
-        Log.e("News" , "ArticleFragment : Url choisie " + mArticleUrl) ;
-        if (mArticleUrl !="") {
+         if (mArticleUrl !="") {
             WebView newsView = (WebView) getActivity().findViewById(R.id.article_view);
             newsView.loadUrl(mArticleUrl);
         }

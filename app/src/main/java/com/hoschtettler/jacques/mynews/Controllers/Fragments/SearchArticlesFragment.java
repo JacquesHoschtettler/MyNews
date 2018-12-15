@@ -54,6 +54,7 @@ public class SearchArticlesFragment extends NewsPage {
                         mFreeSubjectResults = freeSubjectStructure.getResponse();
                         if (mFreeSubjectResults.getDocs().size() != 0)
                         {
+                            UpDateAlreadyArticlesList();
                             UpdateRecyclerView();
                             mNewsAdapter.notifyDataSetChanged();
                         }
@@ -62,17 +63,20 @@ public class SearchArticlesFragment extends NewsPage {
                             String message = getString(R.string.none_articles_found ) ;
                             message += queryTerm ;
                             if (formattedBeginDate != "") {
-                                message += getString(R.string.none_article_begin_date);
+                                message += getString(R.string.search_and_notification_begin_date);
                                 message += mNewsViewModel.getBeginDate() ;
                             }
                             if (formattedEndDate != "") {
-                                message += getString(R.string.none_article_end_date);
+                                message += getString(R.string.search_article_end_date);
                                 message += mNewsViewModel.getEndDate() ;
                             }
-                            message += getString(R.string.none_article_query_filters) ;
-                            message += formattedQueryDomains ;
-                            Toast.makeText(getContext(), message, Toast.LENGTH_LONG)
-                                    .show();
+                            message += getString(R.string.article_query_filters) ;
+                            message += formattedQueryDomains.substring(1,
+                                                formattedQueryDomains.length()-1) ;
+                            for (int i = 0 ; i <2 ; i++) {
+                                Toast.makeText(getContext(), message, Toast.LENGTH_LONG)
+                                        .show();
+                            }
 
                         }
                     }
@@ -110,10 +114,43 @@ public class SearchArticlesFragment extends NewsPage {
             news.setTitle(result.getNewsDesk() + "/");
             news.setText(result.getHeadline().getMain());
             news.setUrl(result.getWebUrl());
+            if(isArticleAlreadyRead(result.getWebUrl()))
+            {
+                news.setBackground(R.color.colorPrimaryLight) ;
+            }
+
             news.setDate(super.FrenchDate(result.getPubDate()));
             mNews.add(news);
         }
     }
+
+    @Override
+    protected int GetWindowNumber()
+    {
+        return 4 ;
+    }
+
+
+    // To remove the already articles that are not yet published.
+    protected void UpDateAlreadyArticlesList()
+    {
+        boolean toRemoved = true ;
+        for (String urlToTest : mNewsViewModel.getAlreadyReadArticlesList(4) )
+        {
+            for ( Doc result : mFreeSubjectResults.getDocs())
+            {
+                if(urlToTest.equals(result.getWebUrl()))
+                {
+                    toRemoved = false ;
+                }
+            }
+            if (toRemoved)
+            {
+                mNewsViewModel.removeAlreadyArticleUrl(urlToTest, 4) ;
+            }
+        }
+    }
+
 
     public void onDestroy()
     {

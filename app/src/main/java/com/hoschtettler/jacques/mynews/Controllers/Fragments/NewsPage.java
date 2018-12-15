@@ -2,7 +2,6 @@ package com.hoschtettler.jacques.mynews.Controllers.Fragments;
 
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +26,13 @@ public abstract class NewsPage extends Fragment {
 
     protected abstract void LoadingNews() ;
     protected abstract void AdapterConfiguration() ;
+    protected abstract int GetWindowNumber() ;
+    protected abstract void UpDateAlreadyArticlesList() ;
 
-    protected NewsViewModel mNewsUrl ;
+    protected NewsViewModel mNewsViewModel ;
     protected NewsAdapter mNewsAdapter ;
+
+
     @BindView(R.id.fragment_news_page_recycler_view) RecyclerView mRecyclerView ;
 
     @Override
@@ -43,12 +46,14 @@ public abstract class NewsPage extends Fragment {
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-       // View view = inflater.inflate(getLayoutId(), container, false) ;
         View view = inflater.inflate(R.layout.fragment_news_page, container, false) ;
 
         ButterKnife.bind(this,view) ;
 
         AdapterConfiguration() ;
+
+        mNewsViewModel = new NewsViewModel() ;
+        mNewsViewModel = ViewModelProviders.of(getActivity()).get(NewsViewModel.class);
 
         this.LoadingNews() ;
 
@@ -76,22 +81,27 @@ public abstract class NewsPage extends Fragment {
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        mNewsUrl.setChosendUrl(mNewsAdapter.getUrl(position));
+                        mNewsViewModel.setAlreadyArticleUrl(mNewsAdapter.getUrl(position), GetWindowNumber()) ;
+                        v.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight)) ;
+                        mNewsViewModel.setChosendUrl(mNewsAdapter.getUrl(position));
                     }
                 });
     }
-
 
     protected RecyclerView getRecyclerView() {
         return mRecyclerView;
     }
 
-    public void onButtonPressed(Uri uri)
-    {
-        // if (mListener != null) {
-        //    mListener.onFragmentInteraction(uri);
-        // }
+    public boolean isArticleAlreadyRead(String url) {
+        boolean changingColor = false ;
+        for (String urlToVerify : mNewsViewModel.getAlreadyReadArticlesList(GetWindowNumber())) {
+            if (urlToVerify.equals(url)) {
+                changingColor = true ;
+            }
+        }
+        return changingColor ;
     }
+
 
     protected void disposeWhenDestroy(Disposable disposable)
     {
@@ -103,42 +113,15 @@ public abstract class NewsPage extends Fragment {
     {
         super.onAttach(context);
 
-        mNewsUrl = ViewModelProviders.of(getActivity()).get(NewsViewModel.class);
-        /*
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-        */
+        mNewsViewModel = ViewModelProviders.of(getActivity()).get(NewsViewModel.class);
     }
-
-
 
     @Override
     public void onDetach()
     {
         super.onDetach();
-        // mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-  /*
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-
-    }*/
 }
 
 

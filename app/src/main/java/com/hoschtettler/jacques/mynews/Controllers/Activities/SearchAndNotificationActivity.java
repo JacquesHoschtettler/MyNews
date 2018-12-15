@@ -1,5 +1,8 @@
 package com.hoschtettler.jacques.mynews.Controllers.Activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +15,7 @@ import com.hoschtettler.jacques.mynews.Models.NewsViewModel;
 import com.hoschtettler.jacques.mynews.Models.QueryDomains;
 import com.hoschtettler.jacques.mynews.R;
 import com.hoschtettler.jacques.mynews.Utils.DatePickerFragment;
+import com.hoschtettler.jacques.mynews.Utils.NotificationReceiver;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +29,9 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
     final String EXTRA_ID_BOUTON = "id_bouton" ;
 
     private NewsViewModel mNewsViewModel ;
+    private PendingIntent mPendingIntent ;
+    final private String EXTRA_QUERY = "EXTRA_QUERY" ;
+    final private String EXTRA_FILTERS = "EXTRA_FILTERS" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +42,7 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
 
         mNewsViewModel = new NewsViewModel() ;
         mNewsViewModel = ViewModelProviders.of(this).get(NewsViewModel.class) ;
+
         mNewsViewModel.setSearchDisplayIndex(intent.getIntExtra(EXTRA_ID_BOUTON,-3));
 
         configureToolbar();
@@ -44,6 +52,7 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
                 .add(R.id.frame_layout_search_and_notification, fragment)
                 .commit() ;
 
+        configurePendingIntent() ;
 
         mNewsViewModel = ViewModelProviders.of(this)
                 .get(NewsViewModel.class) ;
@@ -68,7 +77,6 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
                 }
             }
         });
-
     }
 
     public void showBeginDatePickerDialog(View v) {
@@ -91,10 +99,19 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
            case 0 : toolbar.setTitle(R.string.search_articles);
            break;
            case 1 : toolbar.setTitle(R.string.notifications);
+           configureAlarmManager();
            break;
            default: toolbar.setTitle(R.string.an_error_has_occured);
        }
        setSupportActionBar(toolbar);
+    }
+
+    private void configureAlarmManager(){
+
+    }
+
+    private  void configurePendingIntent()
+    {
     }
 
     public void onCheckboxClicked(View v)
@@ -151,14 +168,79 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
 
     public void searchingArticles(View v)
     {
+        formatting_data(0);
+
+        // Calling the SearchFragment
+        SearchArticlesFragment fragment = new SearchArticlesFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout_search_and_notification, fragment)
+                .addToBackStack(null)
+                .commit() ;
+    }
+
+    private String formatingDate(String date)
+    {
+        if (date != "") {
+            String formattedDate;
+            formattedDate = date.substring(0, 4) + date.substring(5, 7)
+                    + date.substring(8);
+            return formattedDate;
+        }
+            {
+                return "" ;
+            }
+    }
+
+    public void notificationArticles(View v)
+    {
+         if(v.isClickable()) {
+            formatting_data(1);
+
+            AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            Intent alarmIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
+            alarmIntent.putExtra(EXTRA_QUERY, mNewsViewModel.getQueryTerm());
+            alarmIntent.putExtra(EXTRA_FILTERS, mNewsViewModel.getFormattedQueryDomains());
+
+            mPendingIntent = PendingIntent.getBroadcast(SearchAndNotificationActivity.this,
+                    0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0,
+                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, mPendingIntent);
+         }
+        else
+        {
+            stopNotification();
+        }
+     }
+
+
+    private void stopNotification() {
+        if (mPendingIntent != null) {
+            AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            manager.cancel(mPendingIntent);
+        }
+    }
+
+    // private method to formatting and putting in view model the data of the search or the notification.
+    // index is 0 for searching, and 1 for notification.
+    private void formatting_data(int index)
+    {
         String formattedBeginDate ;
         String formattedEndDate ;
         String formattedQueryDomains ;
         QueryDomains domains = new QueryDomains() ;
 
-        // Transformation of the datas to the endpoint format.
-        formattedBeginDate = formatingDate(mNewsViewModel.getBeginDate());
-        formattedEndDate = formatingDate(mNewsViewModel.getEndDate()) ;
+        // Transformation of the dates to the endpoint format.
+        if (index == 0) {
+            formattedBeginDate = formatingDate(mNewsViewModel.getBeginDate());
+            formattedEndDate = formatingDate(mNewsViewModel.getEndDate());
+        }
+        else
+        {
+            formattedBeginDate = "" ;
+            formattedEndDate = "" ;
+        }
 
         formattedQueryDomains = "(\"";
         int CheckedBoxesCounter = 0 ;
@@ -181,25 +263,6 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
         mNewsViewModel.setFormattedBeginDate(formattedBeginDate);
         mNewsViewModel.setFormattedEndDate(formattedEndDate);
         mNewsViewModel.setFormattedQueryDomains(formattedQueryDomains);
-
-        // Calling the SearchFragment
-        SearchArticlesFragment fragment = new SearchArticlesFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frame_layout_search_and_notification, fragment)
-                .addToBackStack(null)
-                .commit() ;
     }
 
-    private String formatingDate(String date)
-    {
-        if (date != "") {
-            String formattedDate;
-            formattedDate = date.substring(0, 4) + date.substring(5, 7)
-                    + date.substring(8);
-            return formattedDate;
-        }
-            {
-                return "" ;
-            }
-    }
 }

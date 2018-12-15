@@ -2,8 +2,11 @@ package com.hoschtettler.jacques.mynews.Models;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import icepick.State;
 
 public class NewsViewModel extends ViewModel
 {
@@ -25,12 +28,16 @@ public class NewsViewModel extends ViewModel
     public MutableLiveData<Integer>  mCheckedBoxesNumber ;
     private Boolean[] mCheckedBoxes ;
     private int numberOfBoxes ;
+    private int numberOfWindows ;
+
+     @State AlreadyReadArticles[] mAlreadyReadArticles ;
 
     // Constructor
     public NewsViewModel()
     {
         super() ;
         numberOfBoxes = 8 ;
+        numberOfWindows = 5 ;
         beginDate = new MutableLiveData<>() ;
         endDate = new MutableLiveData<>() ;
         formattedBeginDate = "" ;
@@ -48,6 +55,13 @@ public class NewsViewModel extends ViewModel
         beginDate.setValue("");
         endDate.setValue("");
         queryTerm= "" ;
+
+        mAlreadyReadArticles = new AlreadyReadArticles[5];
+        for (int i = 0 ; i < numberOfWindows ; i++)
+        {
+            mAlreadyReadArticles[i] = new AlreadyReadArticles() ;
+        }
+
     }
 
     // Setters and getters
@@ -185,5 +199,41 @@ public class NewsViewModel extends ViewModel
         public int getNumberOfBoxes()
         {
             return numberOfBoxes ;
+        }
+
+
+    // List of already read articles
+      //  public ArrayList<String> getAlreadyReadArticlesList(int index) {
+        public ArrayList<String> getAlreadyReadArticlesList(int index) {
+            return mAlreadyReadArticles[index].getAlreadyReadArticlesList();
+        }
+
+        public void setAlreadyReadArticlesList(ArrayList<String> alreadyReadArticles, int index) {
+            mAlreadyReadArticles[index].setAlreadyReadArticlesList(alreadyReadArticles);
+        }
+
+        public String getAlreadyArticleUrl(int window, int index) {
+        return mAlreadyReadArticles[window].getAlreadyReadArticlesUrl(index) ;
+        }
+
+        public void setAlreadyArticleUrl(String alreadyArticle, int window)
+        {
+            mAlreadyReadArticles[window].setAlreadyReadArticlesUrl(alreadyArticle); ;
+        }
+
+        public void removeAlreadyArticleUrl(String alreadyArticle, int window)
+        {
+            mAlreadyReadArticles[window].removeAlreadyReadArticlesUrl(alreadyArticle); ;
+        }
+
+    // Number of windows
+        public int getNumberOfWindows()
+        {
+            return numberOfWindows ;
+        }
+
+        public void setNumberOfWindows(int numberOfWindows)
+        {
+            this.numberOfWindows = numberOfWindows ;
         }
 }

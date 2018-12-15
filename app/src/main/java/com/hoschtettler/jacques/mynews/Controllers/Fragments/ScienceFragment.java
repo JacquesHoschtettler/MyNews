@@ -7,6 +7,7 @@ import com.hoschtettler.jacques.mynews.Models.FreeSubject.Doc;
 import com.hoschtettler.jacques.mynews.Models.FreeSubject.FreeSubjectStructure;
 import com.hoschtettler.jacques.mynews.Models.FreeSubject.Response;
 import com.hoschtettler.jacques.mynews.Models.News;
+import com.hoschtettler.jacques.mynews.R;
 import com.hoschtettler.jacques.mynews.Views.NewsAdapter;
 import com.hoschtettler.jacques.mynews.Utils.NewsStreams;
 
@@ -35,6 +36,7 @@ ScienceFragment extends NewsPage {
                     @Override
                     public void onNext(FreeSubjectStructure freeSubjectStructure) {
                         mSciencetResults = freeSubjectStructure.getResponse();
+                        UpDateAlreadyArticlesList();
                         UpdateRecyclerView();
                         mNewsAdapter.notifyDataSetChanged();
                     }
@@ -52,6 +54,12 @@ ScienceFragment extends NewsPage {
     }
 
     @Override
+    protected int GetWindowNumber()
+    {
+        return 2 ;
+    }
+
+    @Override
     protected void AdapterConfiguration() {
         mNews = new ArrayList<>();
         mSciencetResults = new Response() ;
@@ -59,6 +67,26 @@ ScienceFragment extends NewsPage {
         mNewsAdapter = new NewsAdapter(mNews, Glide.with(getActivity())) ;
         this.mRecyclerView.setAdapter(mNewsAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    // To remove the already articles that are not yet published.
+    protected void UpDateAlreadyArticlesList()
+    {
+        boolean toRemoved = true ;
+        for (String urlToTest : mNewsViewModel.getAlreadyReadArticlesList(GetWindowNumber()) )
+        {
+            for ( Doc result : mSciencetResults.getDocs())
+            {
+                if(urlToTest.equals(result.getWebUrl()))
+                {
+                    toRemoved = false ;
+                }
+            }
+            if (toRemoved)
+            {
+                mNewsViewModel.removeAlreadyArticleUrl(urlToTest,GetWindowNumber()) ;
+            }
+        }
     }
 
     @Override
@@ -79,6 +107,11 @@ ScienceFragment extends NewsPage {
             news.setTitle(result.getNewsDesk() + "/");
             news.setText(result.getHeadline().getMain());
             news.setUrl(result.getWebUrl());
+            if(isArticleAlreadyRead(result.getWebUrl()))
+            {
+                news.setBackground(R.color.colorPrimaryLight) ;
+            }
+
             news.setDate(super.FrenchDate(result.getPubDate()));
             mNews.add(news);
         }

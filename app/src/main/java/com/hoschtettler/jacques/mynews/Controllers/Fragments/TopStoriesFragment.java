@@ -6,8 +6,9 @@ import com.bumptech.glide.Glide;
 import com.hoschtettler.jacques.mynews.Models.News;
 import com.hoschtettler.jacques.mynews.Models.TopStories.TopStoriesResult;
 import com.hoschtettler.jacques.mynews.Models.TopStories.TopsStoriesStructure;
-import com.hoschtettler.jacques.mynews.Views.NewsAdapter;
+import com.hoschtettler.jacques.mynews.R;
 import com.hoschtettler.jacques.mynews.Utils.NewsStreams;
+import com.hoschtettler.jacques.mynews.Views.NewsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ public class TopStoriesFragment extends NewsPage {
                     @Override
                     public void onNext(TopsStoriesStructure topsStoriesStructure) {
                         mTopStoriesResults = topsStoriesStructure.getResults() ;
+                        UpDateAlreadyArticlesList();
                         UpdateRecyclerView();
                         mNewsAdapter.notifyDataSetChanged();
                     }
@@ -47,6 +49,11 @@ public class TopStoriesFragment extends NewsPage {
                 });
     }
 
+    @Override
+    protected int GetWindowNumber()
+    {
+        return 0 ;
+    }
 
     private void UpdateRecyclerView ()
     {
@@ -60,13 +67,41 @@ public class TopStoriesFragment extends NewsPage {
 
             news.setTitle(result.getSection() + "/"+result.getSubsection());
             news.setText(result.getTitle());
+
             news.setUrl(result.getUrl());
+            if(isArticleAlreadyRead(result.getUrl()))
+            {
+                news.setBackground(R.color.colorPrimaryLight) ;
+            }
+
             news.setDate(super.FrenchDate(result.getPublishedDate()));
+
             mNews.add(news);
         }
     }
 
-   @Override
+    // To remove the already articles that are not yet published.
+    protected void UpDateAlreadyArticlesList()
+    {
+        boolean toRemoved = true ;
+        for (String urlToTest : mNewsViewModel.getAlreadyReadArticlesList(GetWindowNumber()) )
+        {
+            for ( TopStoriesResult result : mTopStoriesResults)
+            {
+                if(urlToTest.equals(result.getUrl()))
+                {
+                    toRemoved = false ;
+                }
+            }
+            if (toRemoved)
+            {
+                mNewsViewModel.removeAlreadyArticleUrl(urlToTest, GetWindowNumber()) ;
+            }
+        }
+    }
+
+
+    @Override
     protected void AdapterConfiguration()
     {
         mNews = new ArrayList<>();

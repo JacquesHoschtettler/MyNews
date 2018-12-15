@@ -6,8 +6,9 @@ import com.bumptech.glide.Glide;
 import com.hoschtettler.jacques.mynews.Models.MostPopular.MostPopularResult;
 import com.hoschtettler.jacques.mynews.Models.MostPopular.MostPopularStructure;
 import com.hoschtettler.jacques.mynews.Models.News;
-import com.hoschtettler.jacques.mynews.Views.NewsAdapter;
+import com.hoschtettler.jacques.mynews.R;
 import com.hoschtettler.jacques.mynews.Utils.NewsStreams;
+import com.hoschtettler.jacques.mynews.Views.NewsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class MostPopularFragment extends NewsPage
     private List<MostPopularResult> mMostPopularResults ;
     private ArrayList<News> mNews ;
 
+
  // Required empty constructor
     public MostPopularFragment() {}
 
@@ -33,6 +35,7 @@ public class MostPopularFragment extends NewsPage
                         @Override
                         public void onNext(MostPopularStructure mostPopularStructure) {
                             mMostPopularResults = mostPopularStructure.getResults() ;
+                            UpDateAlreadyArticlesList() ;
                             UpdateRecyclerView();
                             mNewsAdapter.notifyDataSetChanged();
                         }
@@ -48,6 +51,12 @@ public class MostPopularFragment extends NewsPage
                     });
     }
 
+    @Override
+    protected int GetWindowNumber()
+    {
+        return 1 ;
+    }
+
 
     private void UpdateRecyclerView ()
     {
@@ -58,15 +67,38 @@ public class MostPopularFragment extends NewsPage
             } else {
                 news.setImageView("");
             }
-
             news.setTitle(result.getSection() + "/");
             news.setText(result.getTitle());
             news.setUrl(result.getUrl());
+            if(isArticleAlreadyRead(result.getUrl()))
+            {
+                news.setBackground(R.color.colorPrimaryLight) ;
+            }
+
             news.setDate(super.FrenchDate(result.getPublishedDate()));
             mNews.add(news);
         }
     }
 
+    // To remove the already articles that are not yet published.
+    protected void UpDateAlreadyArticlesList()
+    {
+        boolean toRemoved = true ;
+        for (String urlToTest : mNewsViewModel.getAlreadyReadArticlesList(GetWindowNumber()) )
+        {
+           for ( MostPopularResult result : mMostPopularResults)
+           {
+               if(urlToTest.equals(result.getUrl()))
+               {
+                   toRemoved = false ;
+               }
+           }
+           if (toRemoved)
+           {
+               mNewsViewModel.removeAlreadyArticleUrl(urlToTest,GetWindowNumber()) ;
+           }
+        }
+    }
 
     @Override
     protected void AdapterConfiguration()

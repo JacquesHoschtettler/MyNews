@@ -1,7 +1,5 @@
 package com.hoschtettler.jacques.mynews.Utils;
 
-import android.util.Log;
-
 import com.hoschtettler.jacques.mynews.Models.FreeSubject.FreeSubjectStructure;
 import com.hoschtettler.jacques.mynews.Models.MostPopular.MostPopularStructure;
 import com.hoschtettler.jacques.mynews.Models.TopStories.TopsStoriesStructure;
@@ -67,7 +65,7 @@ public class NewsStreams
                             .observeOn(AndroidSchedulers.mainThread())
                             .timeout(10, TimeUnit.SECONDS);
                 } catch (Error error) {
-                    Log.e("MyNews", "Error : " + error.getMessage());
+                   // Log.e("MyNews", "Error : " + error.getMessage());
                 }
             }
             else
@@ -82,7 +80,7 @@ public class NewsStreams
                             .observeOn(AndroidSchedulers.mainThread())
                             .timeout(10, TimeUnit.SECONDS);
                 } catch (Error error) {
-                    Log.e("MyNews", "Error : " + error.getMessage());
+                   // Log.e("MyNews", "Error : " + error.getMessage());
                 }
             }
 
@@ -98,7 +96,7 @@ public class NewsStreams
                             .observeOn(AndroidSchedulers.mainThread())
                             .timeout(10, TimeUnit.SECONDS);
                 } catch (Error error) {
-                    Log.e("MyNews", "Error : " + error.getMessage());
+                  //  Log.e("MyNews", "Error : " + error.getMessage());
                 }
             else {
                 try {
@@ -112,7 +110,7 @@ public class NewsStreams
                             .observeOn(AndroidSchedulers.mainThread())
                             .timeout(10, TimeUnit.SECONDS);
                 } catch (Error error) {
-                    Log.e("MyNews", "Error : " + error.getMessage());
+                   // Log.e("MyNews", "Error : " + error.getMessage());
                 }
             }
         }

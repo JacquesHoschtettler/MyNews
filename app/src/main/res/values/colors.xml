@@ -16,4 +16,6 @@
     <color name="blue">#ff0000ff</color>
     <color name="brown">#c76102</color>
     <color name="black">#ff000000</color>
+
+    <color name="Translucent">#ffffffff</color>
 </resources>

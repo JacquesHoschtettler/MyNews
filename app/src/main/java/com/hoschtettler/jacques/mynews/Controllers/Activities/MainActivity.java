@@ -15,7 +15,8 @@ import com.hoschtettler.jacques.mynews.Models.PagesUrl;
 import com.hoschtettler.jacques.mynews.R;
 import com.hoschtettler.jacques.mynews.Utils.PageAdapter;
 
-import androidx.annotation.NonNull;
+import java.util.ArrayList;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -24,9 +25,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
+import icepick.Icepick;
+import icepick.State;
 
-public class MainActivity extends AppCompatActivity
-                    implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     private PagesUrl mPagesUrl;
     private Toolbar mToolbar ;
@@ -34,12 +36,21 @@ public class MainActivity extends AppCompatActivity
     private NavigationView mNavigationView ;
     private NewsViewModel mNewsViewModel ;
 
+    @State ArrayList<String>[] mAlreadyReadArticles ;
+
     final String EXTRA_ID_BOUTON = "id_bouton" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mNewsViewModel = ViewModelProviders.of(this)
+                .get(NewsViewModel.class) ;
+
+        mAlreadyReadArticles = new  ArrayList[mNewsViewModel.getNumberOfWindows()] ;
+
+        Icepick.restoreInstanceState(this, savedInstanceState);
 
         this.configureToolbar() ;
         this.configureViewPager() ;
@@ -50,10 +61,7 @@ public class MainActivity extends AppCompatActivity
                 .add(R.id.frame_layout_news2, fragment)
                 .commit() ;
 
-        mNewsViewModel = ViewModelProviders.of(this)
-                .get(NewsViewModel.class) ;
-
-        mNewsViewModel.mNewsUrl.observe(this,  new Observer<String>()
+          mNewsViewModel.mNewsUrl.observe(this,  new Observer<String>()
         {
             @Override
             public void onChanged(@Nullable String newsUrl)
@@ -91,8 +99,11 @@ public class MainActivity extends AppCompatActivity
                 launchingActivity(1);
                 return true ;
             case R.id.main_activity_about :
-                Toast.makeText(this, R.string.about_message, Toast.LENGTH_LONG)
-                        .show();
+                // Display the message 3 seconds
+                for (int i = 0 ; i<2 ; i++) {
+                    Toast.makeText(this, R.string.about_message, Toast.LENGTH_LONG)
+                            .show();
+                }
             default :
                 mNewsViewModel.setSearchDisplayIndex(-2);
                 return super.onOptionsItemSelected(item) ;
@@ -131,66 +142,12 @@ public class MainActivity extends AppCompatActivity
         tabs.setTabMode(TabLayout.MODE_FIXED);
     }
 
-  /*
-    private void configureDrawerLayout()
-    {
-        this.mToolbar = (Toolbar)findViewById(R.id.toolbar) ;
-        setSupportActionBar(mToolbar) ;
-
-        this.mDrawerLayout = (DrawerLayout)findViewById(R.id.main_navigation_drawer_layout) ;
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) ;
-        mDrawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
-        this.mNavigationView = (NavigationView)findViewById(R.id.navigation_view_layout) ;
-        mNavigationView.setNavigationItemSelectedListener(this);
-    }
-    */
-
-/*
-    private void configureOnClickRecyclerView(){
-
-        ItemClickSupport.addTo(mRecyclerView, R.layout.top_stories)
-
-                .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-
-                    @Override
-
-                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-
-                        ArticleFragment fragment = new ArticleFragment() ;
-                        getSupportFragmentManager().beginTransaction()
-                                .add(R.id.frame_layout_news, fragment)
-                                .commit() ;
-
-                    }
-
-                });
-
-    }
-    */
-
-
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item)
-    {
-        //this.mNavigationView.getMenu().getItem(item).setChecked(true) ;
-        return true;
-    }
-
-/*
-    @Override
-    public void onBackPressed()
-    {
-        if (this.mDrawerLayout.isDrawerOpen(GravityCompat.START))
-        {
-            this.mDrawerLayout.closeDrawer(GravityCompat.START);
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        for (int index = 0  ; index < mNewsViewModel.getNumberOfWindows() ; index++) {
+            mAlreadyReadArticles[index] = mNewsViewModel.getAlreadyReadArticlesList(index) ;
         }
-        else
-        {
-            super.onBackPressed();
-        }
+        Icepick.saveInstanceState(this, outState);
     }
-    */
 }

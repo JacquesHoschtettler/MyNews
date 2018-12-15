@@ -36,7 +36,6 @@ public class SearchAndNotificationFragment extends Fragment {
     final private String QueryTerm = "EXTRA_QUERY_TERM" ;
     private String mQueryTerm ;
 
-
     @BindView(R.id.begin_date_btn) Button beginBtn ;
     @BindView(R.id.end_date_btn) Button endBtn ;
     @BindView(R.id.notification_switch) Switch notificationSwitch ;
@@ -133,7 +132,7 @@ public class SearchAndNotificationFragment extends Fragment {
 // **********************
     // private methods
 // **********************
-    // Revering the dates order if the begin date is after the end date.
+    // Reversing the dates order if the begin date is after the end date.
     private void beginBeforeEnd()
     {
         if (!mNewsViewModel.getEndDate().equals("") && !mNewsViewModel.getBeginDate().equals("")) {

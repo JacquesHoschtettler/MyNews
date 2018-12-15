@@ -165,16 +165,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|end"
+            app:backgroundTint="@color/colorPrimaryLight"
             android:layout_margin="@dimen/double_padding"
-            android:backgroundTint="@color/colorPrimary"
-            android:elevation="@dimen/double_elevation"
-            android:tint="@color/colorSecondary"
-            app:backgroundTintMode="multiply"
+            android:background="@color/colorPrimary"
             app:elevation="10dp"
             app:hoveredFocusedTranslationZ="@dimen/double_elevation"
             app:pressedTranslationZ="@dimen/simple_elevation"
             app:rippleColor="@color/colorSecondaryDark"
-            app:srcCompat="@mipmap/ic_search_white_36dp"
+            app:srcCompat="@mipmap/ic_search_black_36dp"
             android:onClick="searchingArticles"/>
 
         <Switch
@@ -183,7 +181,9 @@
             android:layout_height="wrap_content"
             android:text="@string/enable_notification"
             android:textColor="@color/colorPrimaryLight"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom"
+            android:onClick="notificationArticles"
+            />
 
     </com.google.android.material.appbar.AppBarLayout>
 
