@@ -81,7 +81,7 @@ public abstract class NewsPage extends Fragment {
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        mNewsViewModel.setAlreadyArticleUrl(mNewsAdapter.getUrl(position), GetWindowNumber()) ;
+                        mNewsViewModel.setAlreadyReadArticleUrl(mNewsAdapter.getUrl(position), GetWindowNumber()) ;
                         v.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight)) ;
                         mNewsViewModel.setChosendUrl(mNewsAdapter.getUrl(position));
                     }

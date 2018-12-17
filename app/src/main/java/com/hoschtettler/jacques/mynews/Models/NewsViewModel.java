@@ -214,11 +214,11 @@ public class NewsViewModel extends ViewModel
             mAlreadyReadArticles[index].setAlreadyReadArticlesList(alreadyReadArticles);
         }
 
-        public String getAlreadyArticleUrl(int window, int index) {
+        public String getAlreadyReadArticleUrl(int window, int index) {
         return mAlreadyReadArticles[window].getAlreadyReadArticlesUrl(index) ;
         }
 
-        public void setAlreadyArticleUrl(String alreadyReadArticle, int window)
+        public void setAlreadyReadArticleUrl(String alreadyReadArticle, int window)
         {
             mAlreadyReadArticles[window].setAlreadyReadArticlesUrl(alreadyReadArticle); ;
         }

@@ -3,6 +3,7 @@ package com.hoschtettler.jacques.mynews.Controllers.Activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -115,13 +116,13 @@ public class MainActivity extends AppCompatActivity {
         if (!preferences.equals(null)) {
             for (int windowIssue = 0; windowIssue < mNewsViewModel.getNumberOfWindows();
                  windowIssue++) {
-                    for (int index = 0 ; index < preferences.getInt(
-                            EXTRA_ALREADY_READ_ARTICLES_NUMBER_FOR_WINDOW+windowIssue,
-                            0) ; index++)
+                String key0 = EXTRA_ALREADY_READ_ARTICLES_NUMBER_FOR_WINDOW+ windowIssue ;
+                int alreadyReadArticlesNumber = preferences.getInt(key0, 0) ;
+
+                    for (int index = 0 ; index < alreadyReadArticlesNumber ; index++)
                     {
-                        String key = EXTRA_ALREADY_READ_ARTICLES_URL + getString(windowIssue) +
-                                getString(index) ;
-                        mNewsViewModel.setAlreadyArticleUrl(preferences.getString( key, ""),
+                        String key1 = EXTRA_ALREADY_READ_ARTICLES_URL + windowIssue + index ;
+                        mNewsViewModel.setAlreadyReadArticleUrl(preferences.getString( key1, ""),
                                 windowIssue );
                     }
             }
@@ -156,20 +157,36 @@ public class MainActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        Log.d("MyNews", "MainActivity : onSaveInstanceState") ;
+        savingAlreadyReadArticles() ;
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        Log.d("MyNews", "MainActivity : onDestroy") ;
+
+    }
+
+    private void savingAlreadyReadArticles()
+    {
+
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         for (int windowIssue = 0 ; windowIssue < mNewsViewModel.getNumberOfWindows() ; windowIssue++)
         {
-            editor.putInt(EXTRA_ALREADY_READ_ARTICLES_NUMBER_FOR_WINDOW+windowIssue ,
-                    mNewsViewModel.getAlreadyReadArticlesList(windowIssue).size()) ;
-            for(int index = 0 ; index<mNewsViewModel.getAlreadyReadArticlesList(windowIssue).size();
-                    index++)
+            String key0 = EXTRA_ALREADY_READ_ARTICLES_NUMBER_FOR_WINDOW+ windowIssue ;
+            int alreadyReadArticlesNumber = mNewsViewModel.getAlreadyReadArticlesList(windowIssue)
+                    .size() ;
+            editor.putInt( key0, alreadyReadArticlesNumber) ;
+
+            for(int index = 0 ; index<alreadyReadArticlesNumber ; index++)
             {
-                String key = EXTRA_ALREADY_READ_ARTICLES_URL+ getString(windowIssue)
-                        + getString(index) ;
-                editor.putString(key, mNewsViewModel.getAlreadyArticleUrl(windowIssue, index) ) ;
+                String key1 = EXTRA_ALREADY_READ_ARTICLES_URL+ windowIssue + index ;
+                editor.putString(key1, mNewsViewModel.getAlreadyReadArticleUrl(windowIssue, index) ) ;
             }
         }
-        editor.apply();
+        editor.commit();
     }
 }
