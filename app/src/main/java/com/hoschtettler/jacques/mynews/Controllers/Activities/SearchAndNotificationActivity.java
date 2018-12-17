@@ -77,6 +77,17 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
                 }
             }
         });
+
+        mNewsViewModel.unsucessfulRequestCounter.observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                SearchAndNotificationFragment fragment = new SearchAndNotificationFragment() ;
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.frame_layout_search_and_notification, fragment)
+                        .commit() ;
+            }
+        });
+
     }
 
     public void showBeginDatePickerDialog(View v) {
@@ -193,7 +204,7 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
 
     public void notificationArticles(View v)
     {
-         if(v.isClickable()) {
+         if(v.isEnabled()) {
             formatting_data(1);
 
             AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -206,7 +217,7 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
                     0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0,
-                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, mPendingIntent);
+                    AlarmManager.INTERVAL_DAY, mPendingIntent);
          }
         else
         {

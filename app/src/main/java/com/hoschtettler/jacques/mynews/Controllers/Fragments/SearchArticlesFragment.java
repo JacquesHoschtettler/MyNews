@@ -10,8 +10,8 @@ import com.hoschtettler.jacques.mynews.Models.FreeSubject.Response;
 import com.hoschtettler.jacques.mynews.Models.News;
 import com.hoschtettler.jacques.mynews.Models.NewsViewModel;
 import com.hoschtettler.jacques.mynews.R;
-import com.hoschtettler.jacques.mynews.Views.NewsAdapter;
 import com.hoschtettler.jacques.mynews.Utils.NewsStreams;
+import com.hoschtettler.jacques.mynews.Views.NewsAdapter;
 
 import java.util.ArrayList;
 
@@ -73,11 +73,11 @@ public class SearchArticlesFragment extends NewsPage {
                             message += getString(R.string.article_query_filters) ;
                             message += formattedQueryDomains.substring(1,
                                                 formattedQueryDomains.length()-1) ;
-                            for (int i = 0 ; i <2 ; i++) {
+                            for (int i = 0 ; i <1 ; i++) {
                                 Toast.makeText(getContext(), message, Toast.LENGTH_LONG)
                                         .show();
                             }
-
+                            mNewsViewModel.incrementingUnsuccessfulRequestCounter();
                         }
                     }
 

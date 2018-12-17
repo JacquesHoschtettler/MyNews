@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import icepick.State;
 
 public class NewsViewModel extends ViewModel
 {
@@ -30,7 +29,9 @@ public class NewsViewModel extends ViewModel
     private int numberOfBoxes ;
     private int numberOfWindows ;
 
-     @State AlreadyReadArticles[] mAlreadyReadArticles ;
+    public MutableLiveData<Integer> unsucessfulRequestCounter ;
+
+    private AlreadyReadArticles[] mAlreadyReadArticles ;
 
     // Constructor
     public NewsViewModel()
@@ -62,6 +63,8 @@ public class NewsViewModel extends ViewModel
             mAlreadyReadArticles[i] = new AlreadyReadArticles() ;
         }
 
+        unsucessfulRequestCounter = new MutableLiveData<>() ;
+        unsucessfulRequestCounter.setValue(0) ;
     }
 
     // Setters and getters
@@ -203,7 +206,6 @@ public class NewsViewModel extends ViewModel
 
 
     // List of already read articles
-      //  public ArrayList<String> getAlreadyReadArticlesList(int index) {
         public ArrayList<String> getAlreadyReadArticlesList(int index) {
             return mAlreadyReadArticles[index].getAlreadyReadArticlesList();
         }
@@ -216,9 +218,9 @@ public class NewsViewModel extends ViewModel
         return mAlreadyReadArticles[window].getAlreadyReadArticlesUrl(index) ;
         }
 
-        public void setAlreadyArticleUrl(String alreadyArticle, int window)
+        public void setAlreadyArticleUrl(String alreadyReadArticle, int window)
         {
-            mAlreadyReadArticles[window].setAlreadyReadArticlesUrl(alreadyArticle); ;
+            mAlreadyReadArticles[window].setAlreadyReadArticlesUrl(alreadyReadArticle); ;
         }
 
         public void removeAlreadyArticleUrl(String alreadyArticle, int window)
@@ -235,5 +237,11 @@ public class NewsViewModel extends ViewModel
         public void setNumberOfWindows(int numberOfWindows)
         {
             this.numberOfWindows = numberOfWindows ;
+        }
+
+    // Incrementation of the unsuccessful request counter
+        public void incrementingUnsuccessfulRequestCounter()
+        {
+            unsucessfulRequestCounter.setValue(unsucessfulRequestCounter.getValue()+1);
         }
 }

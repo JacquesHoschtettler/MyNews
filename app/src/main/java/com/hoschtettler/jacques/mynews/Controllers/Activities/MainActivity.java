@@ -1,12 +1,12 @@
 package com.hoschtettler.jacques.mynews.Controllers.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.hoschtettler.jacques.mynews.Controllers.Fragments.ArticleFragment;
 import com.hoschtettler.jacques.mynews.Controllers.Fragments.TopStoriesFragment;
@@ -15,30 +15,24 @@ import com.hoschtettler.jacques.mynews.Models.PagesUrl;
 import com.hoschtettler.jacques.mynews.R;
 import com.hoschtettler.jacques.mynews.Utils.PageAdapter;
 
-import java.util.ArrayList;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
-import icepick.Icepick;
-import icepick.State;
 
 public class MainActivity extends AppCompatActivity {
 
     private PagesUrl mPagesUrl;
-    private Toolbar mToolbar ;
-    private DrawerLayout mDrawerLayout ;
-    private NavigationView mNavigationView ;
     private NewsViewModel mNewsViewModel ;
 
-    @State ArrayList<String>[] mAlreadyReadArticles ;
-
     final String EXTRA_ID_BOUTON = "id_bouton" ;
+
+    final String EXTRA_ALREADY_READ_ARTICLES_URL =
+            "Already_read_articles_url" ;
+    final String EXTRA_ALREADY_READ_ARTICLES_NUMBER_FOR_WINDOW =
+            "Already_read_articles_number_for_window" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +42,10 @@ public class MainActivity extends AppCompatActivity {
         mNewsViewModel = ViewModelProviders.of(this)
                 .get(NewsViewModel.class) ;
 
-        mAlreadyReadArticles = new  ArrayList[mNewsViewModel.getNumberOfWindows()] ;
-
-        Icepick.restoreInstanceState(this, savedInstanceState);
+        remindingAlreadyArticles() ;
 
         this.configureToolbar() ;
         this.configureViewPager() ;
-        //this.configureDrawerLayout() ;
 
         TopStoriesFragment fragment = new TopStoriesFragment() ;
         getSupportFragmentManager().beginTransaction()
@@ -74,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                     args.putString(ArticleFragment.ARG_URL, newsUrl);
                     newSiteView.setArguments(args);
 
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                   FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.frame_layout_news, newSiteView);
                     transaction.addToBackStack(null);
                     transaction.commit();
@@ -100,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 return true ;
             case R.id.main_activity_about :
                 // Display the message 3 seconds
-                for (int i = 0 ; i<2 ; i++) {
+                for (int i = 0 ; i<1 ; i++) {
                     Toast.makeText(this, R.string.about_message, Toast.LENGTH_LONG)
                             .show();
                 }
@@ -116,6 +107,25 @@ public class MainActivity extends AppCompatActivity {
                 SearchAndNotificationActivity.class) ;
         searchAndNotificationActivity.putExtra(EXTRA_ID_BOUTON, index) ;
         startActivity(searchAndNotificationActivity);
+    }
+
+    private void remindingAlreadyArticles()
+    {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        if (!preferences.equals(null)) {
+            for (int windowIssue = 0; windowIssue < mNewsViewModel.getNumberOfWindows();
+                 windowIssue++) {
+                    for (int index = 0 ; index < preferences.getInt(
+                            EXTRA_ALREADY_READ_ARTICLES_NUMBER_FOR_WINDOW+windowIssue,
+                            0) ; index++)
+                    {
+                        String key = EXTRA_ALREADY_READ_ARTICLES_URL + getString(windowIssue) +
+                                getString(index) ;
+                        mNewsViewModel.setAlreadyArticleUrl(preferences.getString( key, ""),
+                                windowIssue );
+                    }
+            }
+        }
     }
 
     @Override
@@ -145,9 +155,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        for (int index = 0  ; index < mNewsViewModel.getNumberOfWindows() ; index++) {
-            mAlreadyReadArticles[index] = mNewsViewModel.getAlreadyReadArticlesList(index) ;
+
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        for (int windowIssue = 0 ; windowIssue < mNewsViewModel.getNumberOfWindows() ; windowIssue++)
+        {
+            editor.putInt(EXTRA_ALREADY_READ_ARTICLES_NUMBER_FOR_WINDOW+windowIssue ,
+                    mNewsViewModel.getAlreadyReadArticlesList(windowIssue).size()) ;
+            for(int index = 0 ; index<mNewsViewModel.getAlreadyReadArticlesList(windowIssue).size();
+                    index++)
+            {
+                String key = EXTRA_ALREADY_READ_ARTICLES_URL+ getString(windowIssue)
+                        + getString(index) ;
+                editor.putString(key, mNewsViewModel.getAlreadyArticleUrl(windowIssue, index) ) ;
+            }
         }
-        Icepick.saveInstanceState(this, outState);
+        editor.apply();
     }
 }

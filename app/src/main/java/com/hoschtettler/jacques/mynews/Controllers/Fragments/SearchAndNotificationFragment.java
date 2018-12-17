@@ -222,12 +222,12 @@ public class SearchAndNotificationFragment extends Fragment {
             if (allowed)
             {
                 searchButton.setCompatElevationResource(R.dimen.double_elevation);
-                searchButton.setColorFilter(getResources().getColor(R.color.colorSecondary));
+                searchButton.setColorFilter(getResources().getColor(buttonColor(true)));
             }
             else
             {
                 searchButton.setCompatElevationResource(R.dimen.null_elevation);
-                searchButton.setColorFilter(getResources().getColor(R.color.colorPrimaryLight));
+                searchButton.setColorFilter(getResources().getColor(buttonColor(false)));
             }
         }
         else
@@ -235,11 +235,11 @@ public class SearchAndNotificationFragment extends Fragment {
             notificationSwitch.setClickable(allowed) ;
             if (allowed)
             {
-                notificationSwitch.setTextColor(getResources().getColor(R.color.colorSecondary));
+                notificationSwitch.setTextColor(getResources().getColor(buttonColor(true)));
             }
             else
             {
-                notificationSwitch.setTextColor(getResources().getColor(R.color.colorPrimaryLight));
+                notificationSwitch.setTextColor(getResources().getColor(buttonColor(false)));
             }
         }
     }

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.hoschtettler.jacques.mynews.Models.FreeSubject.FreeSubjectStructure;
 import com.hoschtettler.jacques.mynews.Models.FreeSubject.Response;
@@ -111,13 +110,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         String queryDomains = mFormattedQueryDomains.substring(1, mFormattedQueryDomains.length()-1) ;
         message += " " + queryDomains ;
 
-        /*for (int i = 0 ; i<2 ; ++i) {
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-        }
-        */
-        Log.d("MyNews", "NotificationReceiver - MessageResultOfNotification : message = " + message) ;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new
                     NotificationChannel("0",
                     "messages channe",
