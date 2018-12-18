@@ -3,7 +3,6 @@ package com.hoschtettler.jacques.mynews.Controllers.Activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -157,16 +156,7 @@ public class MainActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        Log.d("MyNews", "MainActivity : onSaveInstanceState") ;
         savingAlreadyReadArticles() ;
-    }
-
-    @Override
-    public void onDestroy()
-    {
-        super.onDestroy();
-        Log.d("MyNews", "MainActivity : onDestroy") ;
-
     }
 
     private void savingAlreadyReadArticles()

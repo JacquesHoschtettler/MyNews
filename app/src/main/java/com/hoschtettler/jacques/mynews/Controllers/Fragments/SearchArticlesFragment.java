@@ -54,7 +54,7 @@ public class SearchArticlesFragment extends NewsPage {
                         mFreeSubjectResults = freeSubjectStructure.getResponse();
                         if (mFreeSubjectResults.getDocs().size() != 0)
                         {
-                            UpDateAlreadyArticlesList();
+                            UpDateAlreadyReadArticlesList();
                             UpdateRecyclerView();
                             mNewsAdapter.notifyDataSetChanged();
                         }
@@ -132,11 +132,12 @@ public class SearchArticlesFragment extends NewsPage {
 
 
     // To remove the already articles that are not yet published.
-    protected void UpDateAlreadyArticlesList()
+    protected void UpDateAlreadyReadArticlesList()
     {
-        boolean toRemoved = true ;
+        ArrayList<String> urlToRemoved = new ArrayList<>() ;
         for (String urlToTest : mNewsViewModel.getAlreadyReadArticlesList(4) )
         {
+            boolean toRemoved = true ;
             for ( Doc result : mFreeSubjectResults.getDocs())
             {
                 if(urlToTest.equals(result.getWebUrl()))
@@ -146,8 +147,11 @@ public class SearchArticlesFragment extends NewsPage {
             }
             if (toRemoved)
             {
-                mNewsViewModel.removeAlreadyArticleUrl(urlToTest, 4) ;
+                urlToRemoved.add(urlToTest) ;
             }
+        }
+        for (String urlToEliminate : urlToRemoved) {
+            mNewsViewModel.removeAlreadyArticleUrl(urlToEliminate, GetWindowNumber());
         }
     }
 

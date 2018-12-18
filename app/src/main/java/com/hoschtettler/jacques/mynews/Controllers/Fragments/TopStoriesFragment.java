@@ -33,7 +33,7 @@ public class TopStoriesFragment extends NewsPage {
                     @Override
                     public void onNext(TopsStoriesStructure topsStoriesStructure) {
                         mTopStoriesResults = topsStoriesStructure.getResults() ;
-                        UpDateAlreadyArticlesList();
+                        UpDateAlreadyReadArticlesList();
                         UpdateRecyclerView();
                         mNewsAdapter.notifyDataSetChanged();
                     }
@@ -81,11 +81,12 @@ public class TopStoriesFragment extends NewsPage {
     }
 
     // To remove the already articles that are not yet published.
-    protected void UpDateAlreadyArticlesList()
+    protected void UpDateAlreadyReadArticlesList()
     {
-        boolean toRemoved = true ;
+        ArrayList<String> urlToRemoved = new ArrayList<>() ;
         for (String urlToTest : mNewsViewModel.getAlreadyReadArticlesList(GetWindowNumber()) )
         {
+            boolean toRemoved = true ;
             for ( TopStoriesResult result : mTopStoriesResults)
             {
                 if(urlToTest.equals(result.getUrl()))
@@ -95,8 +96,11 @@ public class TopStoriesFragment extends NewsPage {
             }
             if (toRemoved)
             {
-                mNewsViewModel.removeAlreadyArticleUrl(urlToTest, GetWindowNumber()) ;
+                urlToRemoved.add(urlToTest) ;
             }
+        }
+        for (String urlToEliminate : urlToRemoved) {
+            mNewsViewModel.removeAlreadyArticleUrl(urlToEliminate, GetWindowNumber());
         }
     }
 

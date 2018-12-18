@@ -40,7 +40,7 @@ public class ArtFragment extends NewsPage {
                     @Override
                     public void onNext(FreeSubjectStructure freeSubjectStructure) {
                         mFreeSubjectResults = freeSubjectStructure.getResponse();
-                        UpDateAlreadyArticlesList();
+                        UpDateAlreadyReadArticlesList();
                         UpdateRecyclerView();
                         mNewsAdapter.notifyDataSetChanged();
                     }
@@ -96,11 +96,13 @@ public class ArtFragment extends NewsPage {
     }
 
     // To remove the already articles that are not yet published.
-    protected void UpDateAlreadyArticlesList()
+    protected void UpDateAlreadyReadArticlesList()
     {
-        boolean toRemoved = true ;
+        ArrayList<String> urlToRemoved = new ArrayList<>() ;
+
         for (String urlToTest : mNewsViewModel.getAlreadyReadArticlesList(GetWindowNumber()) )
         {
+            boolean toRemoved = true ;
             for ( Doc result : mFreeSubjectResults.getDocs())
             {
                 if(urlToTest.equals(result.getWebUrl()))
@@ -110,10 +112,14 @@ public class ArtFragment extends NewsPage {
             }
             if (toRemoved)
             {
-                mNewsViewModel.removeAlreadyArticleUrl(urlToTest,GetWindowNumber()) ;
+                urlToRemoved.add(urlToTest) ;
             }
         }
+        for (String urlToEliminate : urlToRemoved) {
+            mNewsViewModel.removeAlreadyArticleUrl(urlToEliminate, GetWindowNumber());
+        }
     }
+
 
     public void onDestroy()
     {

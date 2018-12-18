@@ -36,7 +36,7 @@ public class MainActivityTests
             }
 
             @Override
-            protected void UpDateAlreadyArticlesList() {
+            protected void UpDateAlreadyReadArticlesList() {
 
             }
         } ;

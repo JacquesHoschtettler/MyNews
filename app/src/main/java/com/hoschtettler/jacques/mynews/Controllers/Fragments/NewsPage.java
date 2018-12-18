@@ -27,7 +27,7 @@ public abstract class NewsPage extends Fragment {
     protected abstract void LoadingNews() ;
     protected abstract void AdapterConfiguration() ;
     protected abstract int GetWindowNumber() ;
-    protected abstract void UpDateAlreadyArticlesList() ;
+    protected abstract void UpDateAlreadyReadArticlesList() ;
 
     protected NewsViewModel mNewsViewModel ;
     protected NewsAdapter mNewsAdapter ;

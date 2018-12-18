@@ -35,7 +35,7 @@ public class MostPopularFragment extends NewsPage
                         @Override
                         public void onNext(MostPopularStructure mostPopularStructure) {
                             mMostPopularResults = mostPopularStructure.getResults() ;
-                            UpDateAlreadyArticlesList() ;
+                            UpDateAlreadyReadArticlesList() ;
                             UpdateRecyclerView();
                             mNewsAdapter.notifyDataSetChanged();
                         }
@@ -81,11 +81,13 @@ public class MostPopularFragment extends NewsPage
     }
 
     // To remove the already articles that are not yet published.
-    protected void UpDateAlreadyArticlesList()
+    protected void UpDateAlreadyReadArticlesList()
     {
-        boolean toRemoved = true ;
+        ArrayList<String> urlToRemoved = new ArrayList<>() ;
+
         for (String urlToTest : mNewsViewModel.getAlreadyReadArticlesList(GetWindowNumber()) )
         {
+           boolean toRemoved = true ;
            for ( MostPopularResult result : mMostPopularResults)
            {
                if(urlToTest.equals(result.getUrl()))
@@ -95,8 +97,11 @@ public class MostPopularFragment extends NewsPage
            }
            if (toRemoved)
            {
-               mNewsViewModel.removeAlreadyArticleUrl(urlToTest,GetWindowNumber()) ;
-           }
+               urlToRemoved.add(urlToTest) ;
+            }
+        }
+         for (String urlToEliminate : urlToRemoved) {
+             mNewsViewModel.removeAlreadyArticleUrl(urlToEliminate, GetWindowNumber());
         }
     }
 

@@ -36,7 +36,7 @@ ScienceFragment extends NewsPage {
                     @Override
                     public void onNext(FreeSubjectStructure freeSubjectStructure) {
                         mSciencetResults = freeSubjectStructure.getResponse();
-                        UpDateAlreadyArticlesList();
+                        UpDateAlreadyReadArticlesList();
                         UpdateRecyclerView();
                         mNewsAdapter.notifyDataSetChanged();
                     }
@@ -70,11 +70,13 @@ ScienceFragment extends NewsPage {
     }
 
     // To remove the already articles that are not yet published.
-    protected void UpDateAlreadyArticlesList()
+    protected void UpDateAlreadyReadArticlesList()
     {
-        boolean toRemoved = true ;
+        ArrayList<String> urlToRemoved = new ArrayList<>() ;
+
         for (String urlToTest : mNewsViewModel.getAlreadyReadArticlesList(GetWindowNumber()) )
         {
+            boolean toRemoved = true ;
             for ( Doc result : mSciencetResults.getDocs())
             {
                 if(urlToTest.equals(result.getWebUrl()))
@@ -84,10 +86,14 @@ ScienceFragment extends NewsPage {
             }
             if (toRemoved)
             {
-                mNewsViewModel.removeAlreadyArticleUrl(urlToTest,GetWindowNumber()) ;
+                urlToRemoved.add(urlToTest) ;
             }
         }
+        for (String urlToEliminate : urlToRemoved) {
+            mNewsViewModel.removeAlreadyArticleUrl(urlToEliminate, GetWindowNumber());
+        }
     }
+
 
     @Override
     protected RecyclerView getRecyclerView() {
