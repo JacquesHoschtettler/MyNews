@@ -16,7 +16,7 @@
        app:showAsAction="never"
        android:title="Notifications"
        android:orderInCategory="30"
-       android:icon="@mipmap/ic_more_vert_white_36dp"
+       android:icon="@mipmap/ic_more_vert_black_36dp"
        />
 
 
