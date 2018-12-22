@@ -2,13 +2,13 @@ package com.hoschtettler.jacques.mynews;
 
 import com.hoschtettler.jacques.mynews.Controllers.Fragments.NewsPage;
 import com.hoschtettler.jacques.mynews.Models.FreeSubject.FreeSubjectStructure;
+import com.hoschtettler.jacques.mynews.Utils.NewsStreams;
 
 import org.junit.Test;
 
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 
-import static com.hoschtettler.jacques.mynews.Utils.NewsStreams.SearchArticlesStream;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
@@ -46,8 +46,10 @@ public class MainActivityTests
     @Test
     public void searchArticlesTest() throws Exception {
         // Get the stream
-        Observable<FreeSubjectStructure> observableSearch =SearchArticlesStream(0, "Mars",
-                "20181101", "20181130", "Home & Garden" ) ;
+        Observable<FreeSubjectStructure> observableSearch = NewsStreams.SearchArticlesStream
+                (0, "Mars","20181101",
+                        "20181130", "Home & Garden" ) ;
+
         // Create a new TestObserver
         TestObserver<FreeSubjectStructure> testObserver = new TestObserver<>();
         // Launch observable
@@ -60,6 +62,7 @@ public class MainActivityTests
         FreeSubjectStructure searchResults = testObserver.values().get(0);
 
         // Verify that, in Novembre 2018, there is no article about "Home & Garden" related to Mars
-        assertThat("In November 2018, no articles about \"Home & Garden\" on Mars",searchResults.getResponse().getDocs().size() == 0);
+        assertThat("In November 2018, no articles about \"Home & Garden\" on Mars",
+                searchResults.getResponse().getDocs().size() == 0);
     }
 }

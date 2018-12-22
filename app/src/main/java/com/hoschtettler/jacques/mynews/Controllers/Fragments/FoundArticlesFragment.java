@@ -20,14 +20,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
-public class SearchArticlesFragment extends NewsPage {
+public class FoundArticlesFragment extends NewsPage {
     private Disposable mDisposable ;
     private Response mFreeSubjectResults;
     private ArrayList<News> mNews;
     private NewsViewModel mNewsViewModel ;
 
     // Required empty constructor
-    public SearchArticlesFragment() {
+    public FoundArticlesFragment() {
     }
 
     @Override
@@ -117,6 +117,7 @@ public class SearchArticlesFragment extends NewsPage {
             if(isArticleAlreadyRead(result.getWebUrl()))
             {
                 news.setBackground(R.color.colorPrimaryLight) ;
+                news.setAlreadyRead(true);
             }
 
             news.setDate(super.FrenchDate(result.getPubDate()));

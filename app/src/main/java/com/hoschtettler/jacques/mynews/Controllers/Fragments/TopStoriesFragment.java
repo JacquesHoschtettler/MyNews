@@ -72,6 +72,7 @@ public class TopStoriesFragment extends NewsPage {
             if(isArticleAlreadyRead(result.getUrl()))
             {
                 news.setBackground(R.color.colorPrimaryLight) ;
+                news.setAlreadyRead(true);
             }
 
             news.setDate(super.FrenchDate(result.getPublishedDate()));

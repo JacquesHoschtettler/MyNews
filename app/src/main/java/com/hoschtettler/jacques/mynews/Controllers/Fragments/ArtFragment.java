@@ -88,6 +88,7 @@ public class ArtFragment extends NewsPage {
             if(isArticleAlreadyRead(result.getWebUrl()))
             {
                 news.setBackground(R.color.colorPrimaryLight) ;
+                news.setAlreadyRead(true);
             }
 
             news.setDate(super.FrenchDate(result.getPubDate()));

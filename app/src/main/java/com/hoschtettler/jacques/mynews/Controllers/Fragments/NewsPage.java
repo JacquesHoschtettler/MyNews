@@ -94,9 +94,12 @@ public abstract class NewsPage extends Fragment {
 
     public boolean isArticleAlreadyRead(String url) {
         boolean changingColor = false ;
-        for (String urlToVerify : mNewsViewModel.getAlreadyReadArticlesList(GetWindowNumber())) {
-            if (urlToVerify.equals(url)) {
-                changingColor = true ;
+        for (int windowIndex = 0 ; windowIndex < mNewsViewModel.getNumberOfWindows() ; windowIndex++)
+        {
+            for (String urlToVerify : mNewsViewModel.getAlreadyReadArticlesList(windowIndex)) {
+                if (urlToVerify.equals(url)) {
+                    changingColor = true;
+                }
             }
         }
         return changingColor ;

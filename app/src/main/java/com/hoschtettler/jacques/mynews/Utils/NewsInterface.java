@@ -32,7 +32,7 @@ public interface NewsInterface
     Observable<FreeSubjectStructure> getArt() ;
 
 
-// https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&api-key=965b938d9e72418291dc79bbee0b1084
+// https://api.nytimes.com/svc/search/v2/articlesearch.json?q="Mars"&begin_date="2011101"&end_date="20181130"&fq="Home & Garden"&sort=newest&api-key=965b938d9e72418291dc79bbee0b1084
     @GET("search/v2/articlesearch.json?sort=newest&api-key=965b938d9e72418291dc79bbee0b1084")
     @ErrorCode
     Observable<FreeSubjectStructure> getSearchSubject11(

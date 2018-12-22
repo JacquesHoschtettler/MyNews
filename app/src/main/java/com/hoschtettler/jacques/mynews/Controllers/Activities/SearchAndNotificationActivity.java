@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import com.hoschtettler.jacques.mynews.Controllers.Fragments.ArticleFragment;
+import com.hoschtettler.jacques.mynews.Controllers.Fragments.FoundArticlesFragment;
 import com.hoschtettler.jacques.mynews.Controllers.Fragments.SearchAndNotificationFragment;
-import com.hoschtettler.jacques.mynews.Controllers.Fragments.SearchArticlesFragment;
 import com.hoschtettler.jacques.mynews.Models.NewsViewModel;
 import com.hoschtettler.jacques.mynews.Models.QueryDomains;
 import com.hoschtettler.jacques.mynews.R;
@@ -182,7 +182,7 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
         formatting_data(0);
 
         // Calling the SearchFragment
-        SearchArticlesFragment fragment = new SearchArticlesFragment();
+        FoundArticlesFragment fragment = new FoundArticlesFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame_layout_search_and_notification, fragment)
                 .addToBackStack(null)
@@ -270,7 +270,7 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
         }
         formattedQueryDomains += ")";
 
-        // Passage of the stream parameters to the SearchArticlesFragment
+        // Passage of the stream parameters to the FoundArticlesFragment
         mNewsViewModel.setFormattedBeginDate(formattedBeginDate);
         mNewsViewModel.setFormattedEndDate(formattedEndDate);
         mNewsViewModel.setFormattedQueryDomains(formattedQueryDomains);
