@@ -71,6 +71,11 @@ public class SearchAndNotificationFragment extends Fragment {
 
         configureQueryDomains(view);
 
+        if (mQueryTerm != "")
+        {
+            mQueryTermInput.setText(mQueryTerm);
+        }
+
          // Displaying the good UI according to the selected function : searching articles or notifications.
         if (mNewsViewModel.getSearchDisplayIndex() == 0) {
             notificationSwitch.setVisibility(View.GONE);

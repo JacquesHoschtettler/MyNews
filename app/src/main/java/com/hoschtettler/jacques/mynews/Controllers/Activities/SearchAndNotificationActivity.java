@@ -81,10 +81,7 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
         mNewsViewModel.unsucessfulRequestCounter.observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
-                SearchAndNotificationFragment fragment = new SearchAndNotificationFragment() ;
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.frame_layout_search_and_notification, fragment)
-                        .commit() ;
+                getSupportFragmentManager().popBackStack();
             }
         });
 

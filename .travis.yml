@@ -3,3 +3,16 @@ android:
   components:
     - build-tools-28.0.3
     - android-28
+
+notifications:
+  email:
+    recipients:
+      - jacques.hoschtettler@gmx.com
+    on_success: always
+    on_failure: alwaysS
+
+branches:
+  only:
+    - master
+
+ CODECOV_TOKEN="07f32d4f-5495-4ca7-bf26-a3b10ed46df7"
