@@ -48,6 +48,7 @@ public class NotificationReceiver extends BroadcastReceiver {
                     public void onNext(FreeSubjectStructure freeSubjectStructure) {
                         mFreeSubjectResults = freeSubjectStructure.getResponse();
                         mNumberOfArticles = mFreeSubjectResults.getDocs().size() ;
+                        pullTheAlreadyReadArticles() ;
                         messageResultOfNotification(mNumberOfArticles, context);
                                                 }
 
@@ -82,6 +83,25 @@ public class NotificationReceiver extends BroadcastReceiver {
         }
         date += day ;
         return date ;
+    }
+
+    // Pull the already read articles of the list of articles found in the notification
+    private void pullTheAlreadyReadArticles()
+    {
+        if (mNumberOfArticles != 0) {
+            for (int pointer = 0 ; pointer < mNumberOfArticles ; pointer++) {
+                String urlToTest = mFreeSubjectResults.getDocs().get(pointer).getWebUrl() ;
+                for (int windowNumber = 0; windowNumber < mNewsViewModel.getNumberOfWindows(); windowNumber++) {
+                    for (int index = 0; index < mNewsViewModel.getAlreadyReadArticlesList(windowNumber).size(); index++) {
+                        String urlAlreadyRead = mNewsViewModel.getAlreadyReadArticleUrl(windowNumber, index  );
+                        if (urlToTest.equals(urlAlreadyRead))
+                        {
+                            mNumberOfArticles-- ;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     // Build and display the result message for the notification

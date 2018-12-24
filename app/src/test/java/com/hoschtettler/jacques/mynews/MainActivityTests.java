@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 public class MainActivityTests
 {
     @Test
-    public void translating_date()
+    public void translatingDateTest()
     {
         String englishDate = "2018-11-12" ;
         NewsPage newsPage = new NewsPage() {
@@ -42,6 +42,10 @@ public class MainActivityTests
         } ;
         assertEquals("12/11/2018", newsPage.FrenchDate(englishDate)) ;
     }
+
+   // @Test
+    //
+    //public void
 
     @Test
     public void searchArticlesTest() throws Exception {
