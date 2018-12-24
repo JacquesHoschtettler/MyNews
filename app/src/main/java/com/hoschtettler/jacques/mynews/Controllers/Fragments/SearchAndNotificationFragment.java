@@ -52,10 +52,6 @@ public class SearchAndNotificationFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null)
-        {
-            mQueryTerm = (String) savedInstanceState.get(QueryTerm) ;
-        }
     }
 
     @Override
@@ -70,11 +66,6 @@ public class SearchAndNotificationFragment extends Fragment {
         mNewsViewModel = ViewModelProviders.of(getActivity()).get(NewsViewModel.class);
 
         configureQueryDomains(view);
-
-        if (mQueryTerm != "")
-        {
-            mQueryTermInput.setText(mQueryTerm);
-        }
 
          // Displaying the good UI according to the selected function : searching articles or notifications.
         if (mNewsViewModel.getSearchDisplayIndex() == 0) {
@@ -150,7 +141,7 @@ public class SearchAndNotificationFragment extends Fragment {
     }
 
     // Checking if the dates are in the right order. If not it returns false.
-    private boolean datesInOrder()
+    public boolean datesInOrder()
     {
         int beginYear = Integer.parseInt(mNewsViewModel.getBeginDate().substring(0,4)) ;
         int beginMonth = Integer.parseInt(mNewsViewModel.getBeginDate().substring(5,7)) ;
@@ -259,12 +250,6 @@ public class SearchAndNotificationFragment extends Fragment {
         {
             return R.color.colorPrimaryLight ;
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putCharSequence(QueryTerm, mQueryTerm);
     }
 
 }

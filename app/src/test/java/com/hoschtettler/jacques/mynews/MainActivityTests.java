@@ -43,10 +43,6 @@ public class MainActivityTests
         assertEquals("12/11/2018", newsPage.FrenchDate(englishDate)) ;
     }
 
-   // @Test
-    //
-    //public void
-
     @Test
     public void searchArticlesTest() throws Exception {
         // Get the stream
