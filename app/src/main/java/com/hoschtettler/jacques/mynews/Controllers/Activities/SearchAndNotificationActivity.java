@@ -176,7 +176,7 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
 
     public void searchingArticles(View v)
     {
-        formatting_data(0);
+        formattingData(0);
 
         // Calling the SearchFragment
         FoundArticlesFragment fragment = new FoundArticlesFragment();
@@ -202,7 +202,7 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
     public void notificationArticles(View v)
     {
          if(v.isEnabled()) {
-            formatting_data(1);
+            formattingData(1);
 
             AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
@@ -232,7 +232,7 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
 
     // private method to formatting and putting in view model the data of the search or the notification.
     // index is 0 for searching, and 1 for notification.
-    private void formatting_data(int index)
+    private void formattingData(int index)
     {
         String formattedBeginDate ;
         String formattedEndDate ;
