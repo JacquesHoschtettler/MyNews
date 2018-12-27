@@ -9,7 +9,7 @@ notifications:
     recipients:
       - jacques.hoschtettler@gmx.com
     on_success: always
-    on_failure: alwaysS
+    on_failure: always
 
 branches:
   only:

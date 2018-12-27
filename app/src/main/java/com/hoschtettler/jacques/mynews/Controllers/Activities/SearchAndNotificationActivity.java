@@ -232,7 +232,7 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
 
     // private method to formatting and putting in view model the data of the search or the notification.
     // index is 0 for searching, and 1 for notification.
-    private void formattingData(int index)
+    public void formattingData(int index)
     {
         String formattedBeginDate ;
         String formattedEndDate ;
@@ -252,7 +252,8 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
 
         formattedQueryDomains = "(\"";
         int CheckedBoxesCounter = 0 ;
-        for (int i = 0 ; i < mNewsViewModel.getNumberOfBoxes(); i++)
+        int numberOfBoxes = mNewsViewModel.getNumberOfBoxes() ;
+        for (int i = 0 ; i < numberOfBoxes; i++)
         {
             if (mNewsViewModel.getCheckedBoxes(i))
             {

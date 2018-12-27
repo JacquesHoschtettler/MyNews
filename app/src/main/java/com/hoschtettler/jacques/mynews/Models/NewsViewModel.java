@@ -67,6 +67,21 @@ public class NewsViewModel extends ViewModel
         unsucessfulRequestCounter.setValue(0) ;
     }
 
+    public NewsViewModel(int test)
+    {
+        super() ;
+
+        beginDate = new MutableLiveData<>() ;
+        endDate = new MutableLiveData<>() ;
+        formattedBeginDate = "" ;
+        formattedEndDate = "" ;
+        formattedQueryDomains = "" ;
+
+        mCheckedBoxesNumber = new MutableLiveData<>()     ;
+
+        queryTerm= "" ;
+    }
+
     // Setters and getters
         // Article URL
             public void setChosendUrl(String newsArticle)
