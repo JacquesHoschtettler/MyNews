@@ -85,7 +85,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         return date ;
     }
 
-    // Pull the already read articles of the list of articles found in the notification
+    // Pull the already read articles off the list of articles found in the notification
     private void pullTheAlreadyReadArticles()
     {
         if (mNumberOfArticles != 0) {

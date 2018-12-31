@@ -252,7 +252,7 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
 
         formattedQueryDomains = "(\"";
         int CheckedBoxesCounter = 0 ;
-        int numberOfBoxes = mNewsViewModel.getNumberOfBoxes() ;
+         int numberOfBoxes = mNewsViewModel.getNumberOfBoxes() ;
         for (int i = 0 ; i < numberOfBoxes; i++)
         {
             if (mNewsViewModel.getCheckedBoxes(i))

@@ -46,7 +46,7 @@ public class NewsViewModel extends ViewModel
         formattedQueryDomains = "" ;
         searchDisplayIndex = -1 ;
         dateButtonIndex = -1 ;
-        mCheckedBoxesNumber = new MutableLiveData<>()     ;
+        mCheckedBoxesNumber = new MutableLiveData<>() ;
         mCheckedBoxesNumber.setValue(0);
         mCheckedBoxes = new Boolean[numberOfBoxes] ;
         for (int i = 0 ; i < numberOfBoxes; i++)
@@ -67,6 +67,7 @@ public class NewsViewModel extends ViewModel
         unsucessfulRequestCounter.setValue(0) ;
     }
 
+    // Constructor for test
     public NewsViewModel(int test)
     {
         super() ;

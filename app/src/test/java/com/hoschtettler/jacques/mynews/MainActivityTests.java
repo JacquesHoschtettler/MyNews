@@ -37,7 +37,7 @@ public class MainActivityTests
         assertEquals("12/11/2018", newsPage.FrenchDate(englishDate)) ;
     }
 
-    /*
+/*
     @Test
     public void formattingDataTest()
     {
@@ -48,6 +48,7 @@ public class MainActivityTests
         SearchAndNotificationActivity activityClass =new SearchAndNotificationActivity() ;
 
         NewsViewModel mNewsViewModel = mock(NewsViewModel.class) ;
+        mNewsViewModel = new NewsViewModel(0) ;
 
         when(mNewsViewModel.getBeginDate()).thenReturn("2018/01/01");
         when(mNewsViewModel.getEndDate()).thenReturn("2018/12/31");
@@ -67,5 +68,6 @@ public class MainActivityTests
 
     }
     */
+
 
 }
