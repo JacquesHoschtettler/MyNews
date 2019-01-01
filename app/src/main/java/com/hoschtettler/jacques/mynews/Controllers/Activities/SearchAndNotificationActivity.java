@@ -33,6 +33,11 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
     final private String EXTRA_QUERY = "EXTRA_QUERY" ;
     final private String EXTRA_FILTERS = "EXTRA_FILTERS" ;
 
+    public String[] mFormattedData = new String[3] ;
+    public String[] mRawData = new String[2] ;
+    public int mNumberOfBoxes ;
+    public boolean[] mCheckedBoxes ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +49,9 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
         mNewsViewModel = ViewModelProviders.of(this).get(NewsViewModel.class) ;
 
         mNewsViewModel.setSearchDisplayIndex(intent.getIntExtra(EXTRA_ID_BOUTON,-3));
+
+        mNumberOfBoxes = mNewsViewModel.getNumberOfBoxes() ;
+        mCheckedBoxes = new boolean[mNumberOfBoxes] ;
 
         configureToolbar();
 
@@ -176,7 +184,9 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
 
     public void searchingArticles(View v)
     {
+        fromRawData();
         formattingData(0);
+        toTheViewModel() ;
 
         // Calling the SearchFragment
         FoundArticlesFragment fragment = new FoundArticlesFragment();
@@ -230,7 +240,8 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
         }
     }
 
-    // private method to formatting and putting in view model the data of the search or the notification.
+    // public (from "private", it becomes "public" to allow tests( method to formatting and
+    // putting in view model the data of the search or the notification.
     // index is 0 for searching, and 1 for notification.
     public void formattingData(int index)
     {
@@ -241,8 +252,8 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
 
         // Transformation of the dates to the endpoint format.
         if (index == 0) {
-            formattedBeginDate = formatingDate(mNewsViewModel.getBeginDate());
-            formattedEndDate = formatingDate(mNewsViewModel.getEndDate());
+            formattedBeginDate = formatingDate(mRawData[0]);
+            formattedEndDate = formatingDate(mRawData[1]);
         }
         else
         {
@@ -252,10 +263,10 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
 
         formattedQueryDomains = "(\"";
         int CheckedBoxesCounter = 0 ;
-         int numberOfBoxes = mNewsViewModel.getNumberOfBoxes() ;
+         int numberOfBoxes = mNumberOfBoxes ;
         for (int i = 0 ; i < numberOfBoxes; i++)
         {
-            if (mNewsViewModel.getCheckedBoxes(i))
+            if (mCheckedBoxes[i])
             {
                 if (CheckedBoxesCounter > 0)
                 {
@@ -269,9 +280,26 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
         formattedQueryDomains += ")";
 
         // Passage of the stream parameters to the FoundArticlesFragment
-        mNewsViewModel.setFormattedBeginDate(formattedBeginDate);
-        mNewsViewModel.setFormattedEndDate(formattedEndDate);
-        mNewsViewModel.setFormattedQueryDomains(formattedQueryDomains);
+        mFormattedData[0] =formattedBeginDate;
+        mFormattedData[1] = formattedEndDate;
+        mFormattedData[2] = formattedQueryDomains;
+    }
+
+    private void toTheViewModel()
+    {
+        mNewsViewModel.setFormattedBeginDate(mFormattedData[0]);
+        mNewsViewModel.setFormattedEndDate(mFormattedData[1]);
+        mNewsViewModel.setFormattedQueryDomains(mFormattedData[2]);
+    }
+
+    private void fromRawData()
+    {
+        mRawData[0] = mNewsViewModel.getBeginDate() ;
+        mRawData[1] = mNewsViewModel.getEndDate() ;
+        for (int i = 0 ; i < mNumberOfBoxes ; i++)
+        {
+            mCheckedBoxes[i] = mNewsViewModel.getCheckedBoxes(i) ;
+        }
     }
 
 }

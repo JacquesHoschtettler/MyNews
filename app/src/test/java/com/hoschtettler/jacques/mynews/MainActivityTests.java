@@ -1,5 +1,6 @@
 package com.hoschtettler.jacques.mynews;
 
+import com.hoschtettler.jacques.mynews.Controllers.Activities.SearchAndNotificationActivity;
 import com.hoschtettler.jacques.mynews.Controllers.Fragments.NewsPage;
 
 import org.junit.Test;
@@ -37,7 +38,6 @@ public class MainActivityTests
         assertEquals("12/11/2018", newsPage.FrenchDate(englishDate)) ;
     }
 
-/*
     @Test
     public void formattingDataTest()
     {
@@ -47,27 +47,25 @@ public class MainActivityTests
 
         SearchAndNotificationActivity activityClass =new SearchAndNotificationActivity() ;
 
-        NewsViewModel mNewsViewModel = mock(NewsViewModel.class) ;
-        mNewsViewModel = new NewsViewModel(0) ;
 
-        when(mNewsViewModel.getBeginDate()).thenReturn("2018/01/01");
-        when(mNewsViewModel.getEndDate()).thenReturn("2018/12/31");
-        when(mNewsViewModel.getNumberOfBoxes()).thenReturn(8);
-        when(mNewsViewModel.getCheckedBoxes(0)).thenReturn(false) ;
-        when(mNewsViewModel.getCheckedBoxes(1)).thenReturn(true) ;
-        when(mNewsViewModel.getCheckedBoxes(2)).thenReturn(false) ;
-        when(mNewsViewModel.getCheckedBoxes(3)).thenReturn(false) ;
-        when(mNewsViewModel.getCheckedBoxes(4)).thenReturn(false) ;
-        when(mNewsViewModel.getCheckedBoxes(5)).thenReturn(false) ;
-        when(mNewsViewModel.getCheckedBoxes(6)).thenReturn(true) ;
-        when(mNewsViewModel.getCheckedBoxes(7)).thenReturn(false) ;
+        activityClass.mRawData[0] = "2018/01/01";
+        activityClass.mRawData[1] = "2018/12/31";
+        activityClass.mNumberOfBoxes = 8;
+        activityClass.mCheckedBoxes = new boolean[8] ;
+        activityClass.mCheckedBoxes[0] = false ;
+        activityClass.mCheckedBoxes[1] = true ;
+        activityClass.mCheckedBoxes[2] = false ;
+        activityClass.mCheckedBoxes[3] = false ;
+        activityClass.mCheckedBoxes[4] = false ;
+        activityClass.mCheckedBoxes[5] = false ;
+        activityClass.mCheckedBoxes[6] = true ;
+        activityClass.mCheckedBoxes[7] = false ;
 
         activityClass.formattingData( 1 );
 
-        assertEquals("(\"Business\" \"World\")", mNewsViewModel.getFormattedQueryDomains());
+        assertEquals("(\"Business\" \"World\")", activityClass.mFormattedData[2]);
 
     }
-    */
 
 
 }
