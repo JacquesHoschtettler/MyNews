@@ -3,16 +3,16 @@ language: android       # To an android app
    	email: true         # Email sent when the process is complete
 
 env:
-   	# Global Reference Values for the file
+  # Global Reference Values for the file
    	global:
-   	#Android API Version for the code (same as specified in projects build.gradle file)
+    #Android API Version for the code (same as specified in projects build.gradle file)
    	   - ANDROID_API_LEVEL=28
     #Android API Version for the emulator
        - EMULATOR_API_LEVEL=26
     #Android Build Tools Version (same as specified in projects build.gradle file)
        - ANDROID_BUILD_TOOLS_VERSION=28.0.3
     # Android API Version for the target
-       - ANDROID_TARGET=android-28
+       - ANDROID_TARGET=android-22
     #Install Timeout (by default 2min is not enough for slow computers)
        - ADB_INSTALL_TIMEOUT=5 # minutes
 
@@ -62,7 +62,7 @@ before_install:
 
 before_script:
    	  - chmod +x gradlew
-   	#Unit Tests
+    #Unit Tests
    	  - ./gradlew build jacocoTestReport assembleAndroidTest
    	#Emulator
    	  - echo no | android create avd --force -n test -t android-$EMULATOR_API_LEVEL --abi armeabi-v7a
@@ -70,9 +70,9 @@ before_script:
    	  - android-wait-for-emulator
       - adb shell input keyevent 82 &
 
-   	#Executes instrumentation tests located in src/androidTests/
+   #Executes instrumentation tests located in src/androidTests/
 script:
-      #Instrumentation Tests
+    #Instrumentation Tests
       - ./gradlew connectedCheck
 
 after_success:
