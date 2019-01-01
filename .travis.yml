@@ -9,14 +9,14 @@ env:
    	global:
    	#Android API Version for the code (same as specified in projects build.gradle file)
    	   - ANDROID_API_LEVEL=28
-   	#Android API Version for the emulator
+    #Android API Version for the emulator
        - EMULATOR_API_LEVEL=26
-   	#Android Build Tools Version (same as specified in projects build.gradle file)
+    #Android Build Tools Version (same as specified in projects build.gradle file)
        - ANDROID_BUILD_TOOLS_VERSION=28.0.3
-   	# Android API Version for the target
-       - ANDROID_TARGET=android-15
+    # Android API Version for the target
+       - ANDROID_TARGET=android-28
        - ANDROID_ABI=armeabi-v7a
-   	#Install Timeout (by default 2min is not enough for slow computers)
+    #Install Timeout (by default 2min is not enough for slow computers)
        - ADB_INSTALL_TIMEOUT=5 # minutes
 
 android:
