@@ -17,5 +17,4 @@ branches:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -cF android
-
-# CODECOV_TOKEN="07f32d4f-5495-4ca7-bf26-a3b10ed46df7"
+   CODECOV_TOKEN="07f32d4f-5495-4ca7-bf26-a3b10ed46df7"
