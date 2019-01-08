@@ -6,17 +6,17 @@ env:
        - ANDROID_TARGET=android-28
        - ANDROID_ABI=armeabi-v7a
 
-   notifications:
-     email:
-       recipients:
-         - jacques.hoschtettler@gmx.com
-       on_success: always
-       on_failure: always
+ notifications:
+   email:
+     recipients:
+       - jacques.hoschtettler@gmx.com
+     on_success: always
+     on_failure: always
 
 
-   branches:
-     only:
-       - master
+ branches:
+   only:
+     - master
 
 android:
   components:
@@ -32,7 +32,9 @@ script:
   - android-wait-for-emulator
   - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
   - ./gradlew connectedCheck
+  - ./gradlew jacocoTestReport
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -cF android
 # CODECOV_TOKEN="07f32d4f-5495-4ca7-bf26-a3b10ed46df7"
+# This token is not required with Travis

@@ -41,10 +41,6 @@ public class MainActivityTests
     @Test
     public void formattingDataTest()
     {
-        String formattedBeginDate = "";
-        String formattedEndDate = "";
-        String formattedQueryDomains = "" ;
-
         SearchAndNotificationActivity activityClass =new SearchAndNotificationActivity() ;
 
 
