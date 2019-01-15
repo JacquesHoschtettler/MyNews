@@ -75,12 +75,3 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.0.0"
     implementation 'com.android.support:design:28.0.0'
 }
-
-
-task jacocoReport(type: JacocoReport) {
-    reports {
-        csv.enabled false
-        xml.enabled true // coveralls plugin depends on xml format report
-        html.enabled true
-    }
-}
