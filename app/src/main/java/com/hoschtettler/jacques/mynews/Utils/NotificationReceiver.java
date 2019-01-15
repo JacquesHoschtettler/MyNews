@@ -50,11 +50,10 @@ public class NotificationReceiver extends BroadcastReceiver {
                         mNumberOfArticles = mFreeSubjectResults.getDocs().size() ;
                         pullTheAlreadyReadArticles() ;
                         messageResultOfNotification(mNumberOfArticles, context);
-                                                }
+                        }
 
                     @Override
                     public void onError(Throwable e) {
-
                     }
 
                     @Override

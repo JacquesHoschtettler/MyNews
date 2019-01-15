@@ -212,13 +212,15 @@ public class SearchAndNotificationActivity extends AppCompatActivity  {
     public void notificationArticles(View v)
     {
          if(v.isEnabled()) {
-            formattingData(1);
+             fromRawData();
+             formattingData(1);
+             toTheViewModel();
 
             AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
             Intent alarmIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
             alarmIntent.putExtra(EXTRA_QUERY, mNewsViewModel.getQueryTerm());
-            alarmIntent.putExtra(EXTRA_FILTERS, mNewsViewModel.getFormattedQueryDomains());
+            alarmIntent.putExtra(EXTRA_FILTERS, mFormattedData[2]);
 
             mPendingIntent = PendingIntent.getBroadcast(SearchAndNotificationActivity.this,
                     0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);

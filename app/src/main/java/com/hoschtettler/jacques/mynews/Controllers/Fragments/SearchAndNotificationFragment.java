@@ -33,7 +33,6 @@ public class SearchAndNotificationFragment extends Fragment {
     private NewsViewModel mNewsViewModel ;
     private QueryDomains mQueryDomains ;
     private int mBoxesChecked ;
-    final private String QueryTerm = "EXTRA_QUERY_TERM" ;
     private String mQueryTerm ;
 
     @BindView(R.id.begin_date_btn) Button beginBtn ;
@@ -151,26 +150,27 @@ public class SearchAndNotificationFragment extends Fragment {
         int endMonth = Integer.parseInt(mNewsViewModel.getEndDate().substring(5,7)) ;
         int endDay = Integer.parseInt(mNewsViewModel.getEndDate().substring(8,10)) ;
 
-        if (beginYear < endYear)
-        {            return true ; }
+        if (beginYear < endYear)  // Dates are not in the same year and the years are well ordered.
+        {   return true ; }
         else {
-            if (beginYear == endYear)
+            if (beginYear == endYear)  // Dates are in the same year
             {
-                if (beginMonth < endMonth)
+                if (beginMonth < endMonth)  // Dates are not in the same month, and the months are
+                                            // well ordered
                 {   return true ; }
                 else
-                {   if (beginMonth == endMonth)
+                {   if (beginMonth == endMonth) // Dates are in the same month
                     {
-                        if (beginDay <= endDay)
+                        if (beginDay <= endDay) // Days are well ordered
                         {   return true ; }
-                        else {
-                            return false ; }
+                        else    // beginDay > endDay
+                        { return false ; }
                     }
-                    else
+                    else  // beginMonth > endMonth
                     {   return false ; }
                 }
             }
-            else
+            else  // beginYear > endYear ; dates are not in the same year, and the years are reversed
                 {  return false; }
         }
     }
@@ -178,22 +178,20 @@ public class SearchAndNotificationFragment extends Fragment {
     // Setting up the check boxes.
     private void configureQueryDomains(View view)
     {
-           mQueryDomains = new QueryDomains() ;
-           if (mNewsViewModel.mCheckedBoxesNumber.equals(null))
-           {
-               mBoxesChecked = 0 ;
-           }
-           else
-           {
-               mBoxesChecked = mNewsViewModel.getCheckedBoxesNumber() ;
-           }
+        // Initialization of number of checked boxes, if there is no number
+       if (mNewsViewModel.mCheckedBoxesNumber.equals(null))
+       {
+           mNewsViewModel.setCheckedBoxesNumber(0);
+       }
 
-            for(int i = 0 ; i < mQueryDomains.getQueryDomainsNumber(); i++)
-            {
-                CheckBox checkBox = view.findViewById(mQueryDomains.getCheckBoxId(i)) ;
-                checkBox.setText(mQueryDomains.getQueryDomain(i));
-                checkBox.setChecked(mNewsViewModel.getCheckedBoxes(i));
-            }
+       // Labelling the checked boxes
+       mQueryDomains = new QueryDomains() ;
+       for(int i = 0 ; i < mQueryDomains.getQueryDomainsNumber(); i++)
+       {
+           CheckBox checkBox = view.findViewById(mQueryDomains.getCheckBoxId(i)) ;
+           checkBox.setText(mQueryDomains.getQueryDomain(i));
+           checkBox.setChecked(mNewsViewModel.getCheckedBoxes(i));
+       }
     }
 
     // Checking if a query term is input AND if at least a checkbox is checked.
@@ -213,7 +211,8 @@ public class SearchAndNotificationFragment extends Fragment {
     private void managingTheButton()
     {
         boolean allowed = allowingTheActionButton() ;
-        if (mNewsViewModel.getSearchDisplayIndex() == 0) {
+        if (mNewsViewModel.getSearchDisplayIndex() == 0) // Searching articles option
+        {
             searchButton.setClickable(allowed);
             if (allowed)
             {
@@ -226,7 +225,7 @@ public class SearchAndNotificationFragment extends Fragment {
                 searchButton.setColorFilter(getResources().getColor(buttonColor(false)));
             }
         }
-        else
+        else                                        // Notifications option
         {
             notificationSwitch.setClickable(allowed) ;
             if (allowed)
